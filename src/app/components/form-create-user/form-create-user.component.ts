@@ -1,3 +1,4 @@
+import { passwordRegex } from './../../helpers/validatePassword.helper';
 import { Component, OnInit, inject } from '@angular/core';
 import {
   FormBuilder,
@@ -44,7 +45,7 @@ export class FormCreateUserComponent implements OnInit {
     this.createUserForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
+      password: ['', [Validators.required, Validators.pattern(passwordRegex)]],
       role: ['user', Validators.required],
       clientType: ['', Validators.required],
     });

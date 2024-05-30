@@ -75,11 +75,24 @@
         @if (!!isCreate && userForm['password'].hasError('required') ||
         userForm['password'].touched ) {
         <small class="text-secondary-light"> El password es Obligarotio </small>
-        } @if ( !!isCreate && userForm['password'].hasError('minlength') ) {
+        } @if ( userForm['password'].hasError('pattern')) {
         <small class="text-secondary-light">
-          La longitud de la contraseña debe ser mayor a 8 carácteres
+          La contraseña debe tener al menos 8 caracteres, incluyendo una
+          mayúscula, una minúscula, un número y un carácter especial.
         </small>
         }
+
+        <!-- <div *ngIf="isCreate && userForm['password'].touched">
+          <small *ngIf="userForm['password'].hasError('required')" class="text-secondary-light">
+            El password es obligatorio
+          </small>
+          <small *ngIf="userForm['password'].hasError('minlength')" class="text-secondary-light">
+            La longitud de la contraseña debe ser mayor a 8 caracteres
+          </small>
+          <small *ngIf="userForm['password'].hasError('pattern')" class="text-secondary-light">
+            La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula, un número y un carácter especial.
+          </small>
+        </div> -->
       </div>
 
       <div class="mb-6">

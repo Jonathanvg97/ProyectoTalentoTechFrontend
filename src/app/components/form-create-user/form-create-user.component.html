@@ -25,7 +25,10 @@
           formControlName="name"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
         />
-        @if (isCreate && userForm['name'].errors || userForm['name'].touched) {
+        @if (isCreate && userForm['name'].errors) {
+        <small class="text-secondary-light"> El nombre es requerido </small>
+        } @if ( userForm['name'].hasError('required') &&
+        userForm['name'].touched){
         <small class="text-secondary-light"> El nombre es requerido </small>
         } @if ( userForm['name'].hasError('minlength') &&
         userForm['name'].touched ) {
@@ -46,8 +49,13 @@
           formControlName="email"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
         />
-        @if (isCreate && userForm['email'].errors || userForm['email'].touched)
-        {
+
+        @if (isCreate && userForm['email'].errors ) {
+        <small class="text-secondary-light">
+          El correo electrónico es requerido
+        </small>
+        } @if ( userForm['email'].hasError('required') &&
+        userForm['email'].touched ) {
         <small class="text-secondary-light">
           El correo electrónico es requerido
         </small>
@@ -57,6 +65,9 @@
           Debe ser un correo electrónico
         </small>
         }
+        <small class="text-secondary-light">
+          {{ errorMessage }}
+        </small>
       </div>
 
       <div class="mb-4">
@@ -72,8 +83,10 @@
           formControlName="password"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
         />
-        @if (!!isCreate && userForm['password'].hasError('required') ||
-        userForm['password'].touched ) {
+        @if (!!isCreate && userForm['password'].hasError('required')) {
+        <small class="text-secondary-light"> El password es Obligarotio </small>
+        } @if(userForm['password'].hasError('required') &&
+        userForm['password'].touched) {
         <small class="text-secondary-light"> El password es Obligarotio </small>
         } @if ( userForm['password'].hasError('pattern')) {
         <small class="text-secondary-light">
@@ -81,18 +94,6 @@
           mayúscula, una minúscula, un número y un carácter especial.
         </small>
         }
-
-        <!-- <div *ngIf="isCreate && userForm['password'].touched">
-          <small *ngIf="userForm['password'].hasError('required')" class="text-secondary-light">
-            El password es obligatorio
-          </small>
-          <small *ngIf="userForm['password'].hasError('minlength')" class="text-secondary-light">
-            La longitud de la contraseña debe ser mayor a 8 caracteres
-          </small>
-          <small *ngIf="userForm['password'].hasError('pattern')" class="text-secondary-light">
-            La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula, un número y un carácter especial.
-          </small>
-        </div> -->
       </div>
 
       <div class="mb-6">
@@ -106,11 +107,16 @@
           formControlName="clientType"
           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
         >
-          <option value="" disabled>Seleccione el tipo de cliente</option>
-          <option value="1">Cliente Tipo 1</option>
-          <option value="2">Cliente Tipo 2</option>
+          <option value="">Selecciona un tipo de cliente</option>
+          <option *ngFor="let key of clientTypeKeys" [value]="key">
+            {{ clientTypes[key].join(", ") }}
+          </option>
         </select>
-        @if (isCreate && userForm['clientType'].errors ||
+        @if (isCreate && userForm['clientType'].errors) {
+        <small class="text-secondary-light">
+          El tipo de cliente es requerido
+        </small>
+        } @if(userForm['clientType'].hasError('required') &&
         userForm['clientType'].touched) {
         <small class="text-secondary-light">
           El tipo de cliente es requerido

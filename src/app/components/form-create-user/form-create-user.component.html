@@ -1,6 +1,6 @@
 <div class="h-screen flex flex-col">
   <div class="">
-    <app-header></app-header>
+    <app-header [showBakcButton]="true"></app-header>
   </div>
   <section class="imageBackground flex-grow">
     <form
@@ -54,7 +54,7 @@
         <small class="text-secondary-light">
           El correo electrónico es requerido
         </small>
-        } @if ( userForm['email'].hasError('required') &&
+        } @if (userForm['email'].hasError('required') &&
         userForm['email'].touched ) {
         <small class="text-secondary-light">
           El correo electrónico es requerido

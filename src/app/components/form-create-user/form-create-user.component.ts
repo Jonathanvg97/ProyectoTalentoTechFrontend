@@ -88,7 +88,7 @@ export class FormCreateUserComponent implements OnInit {
         );
 
         console.log(resp);
-        this.router.navigate(['/']);
+        this.router.navigate(['/login']);
       },
       (error) => {
         console.error('Error creating user', error);

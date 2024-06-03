@@ -58,7 +58,7 @@ export class LoginService {
       );
   }
 
-  loginUser(login: LoginInterface) {
+  loginUser(login: LoginInterface): Observable<any> {
     return this.httpClient
       .post(`${base_url}/${base_url_auth}/login`, login)
       .pipe(
@@ -78,17 +78,18 @@ export class LoginService {
       );
   }
 
-  logout(userId: string): Observable<any> {
-    const url = `${base_url}/${base_url_auth}/logout/${userId}`;
-    return this.httpClient.post(url, {}, this.headers).pipe(
-      tap(() => {
-        localStorage.removeItem('token');
-        this.router.navigateByUrl('/home');
-      }),
-      catchError((error) => {
-        console.error('Error logging out:', error);
-        return of(false);
-      })
-    );
+  logout(id: string): Observable<any> {
+    return this.httpClient
+      .post(`${base_url}/${base_url_auth}/signOut/${id}`, {}, this.headers)
+      .pipe(
+        tap(() => {
+          localStorage.removeItem('token');
+          this.router.navigateByUrl('/home');
+        }),
+        catchError((error) => {
+          console.error('Error logging out:', error);
+          return of(false);
+        })
+      );
   }
 }

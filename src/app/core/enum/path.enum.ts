@@ -3,4 +3,5 @@ export enum PATH {
   HOMEOPPORTUNITY = 'homeOpportunity',
   LOGIN = 'login',
   USERS = 'users',
+  CREATEUSER = 'createUser',
 }

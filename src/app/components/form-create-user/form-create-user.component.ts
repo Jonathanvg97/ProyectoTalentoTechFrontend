@@ -13,7 +13,7 @@ import { UsersService } from './../../services/users/users.service';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { userCreateInterface } from '../../core/interface/usuario.interface';
+import { userCreateInterface } from '../../core/interface/user.interface';
 import { ToastrService } from 'ngx-toastr';
 import {
   toasterErrorConfig,

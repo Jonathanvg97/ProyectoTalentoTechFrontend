@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
     this.loginServices.loginUser(loginData).subscribe({
       next: (resp: any) => {
         if (resp && resp.user) {
-          console.log(resp);
+          // console.log(resp);
           const { name } = resp.user;
           Swal.fire({
             html: `Bienvenido ${name}`,

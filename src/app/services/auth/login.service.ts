@@ -30,49 +30,22 @@ export class LoginService {
     };
   }
 
-  validateToken(): Observable<boolean> {
-    return this.httpClient
-      .get(`${base_url}/${base_url_auth}/login`, {
-        headers: {
-          authorization: this.token,
-        },
-      })
-      .pipe(
-        map((resp: any) => {
-          const { name, email, role, _id, createdAt, clientType } = resp.user;
-          this.user = new UserModel(
-            _id,
-            name,
-            email,
-            role,
-            createdAt,
-            clientType
-          );
-          localStorage.setItem('token', resp.token);
-          return true;
-        }),
-        catchError((error) => {
-          console.log(error);
-          return of(false);
-        })
-      );
-  }
-
   loginUser(login: LoginInterface): Observable<any> {
     return this.httpClient
       .post(`${base_url}/${base_url_auth}/login`, login)
       .pipe(
         tap((resp: any) => {
-          localStorage.setItem('token', resp.token);
-          const { name, email, role, _id, createdAt, clientType } = resp.user;
+          const { _id, name, email, role, createdAt, clientType } = resp.user;
           this.user = new UserModel(
             _id,
             name,
             email,
+            '',
             role,
-            createdAt,
+            new Date(createdAt),
             clientType
           );
+          this.saveUserToLocalStorage(this.user, resp.token);
           this.router.navigateByUrl('/homeOpportunity');
         })
       );
@@ -91,5 +64,10 @@ export class LoginService {
           return of(false);
         })
       );
+  }
+
+  private saveUserToLocalStorage(user: UserModel, token: string) {
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(user.role));
   }
 }

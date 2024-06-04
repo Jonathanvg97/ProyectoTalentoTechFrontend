@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserModel } from '../../core/models/user.model';
-import { userCreateInterface } from '../../core/interface/usuario.interface';
+import { userCreateInterface } from '../../core/interface/user.interface';
 import { environment } from '../../../environments/environment.development';
 
 const base_url = environment.base_url;

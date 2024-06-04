@@ -1,30 +1,77 @@
-<button
-  class="btn btn-primary"
-  type="button"
-  data-bs-toggle="offcanvas"
-  data-bs-target="#staticBackdrop"
-  aria-controls="staticBackdrop"
->
-  Toggle static offcanvas
-</button>
+<div class="container-fluid">
+  <div class="row flex-nowrap">
+    <div
+      class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary-light min-w-[250px]"
+    >
+      <div
+        class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-8 min-vh-100"
+      >
+        <span
+          class="fs-5 d-none d-sm-inline text-secondary-dark font-semibold mb-6"
+          >Menu</span
+        >
+        <ul
+          class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+          id="menu"
+        >
+          <li class="nav-item">
+            <a
+              [routerLink]="['/homeOpportunity']"
+              class="nav-link align-middle px-0"
+            >
+              <i
+                class="fa-solid fa-house-chimney-window text-secondary-dark"
+              ></i>
+              <span
+                class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
+                >Home</span
+              >
+            </a>
+          </li>
+          <li>
+            <a
+              href="#submenu1"
+              data-bs-toggle="collapse"
+              class="nav-link px-0 align-middle"
+            >
+              <i class="fa-solid fa-gauge text-secondary-dark"></i>
+              <span
+                class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
+                >Dashboard</span
+              >
+            </a>
+          </li>
+        </ul>
+        <hr />
 
-<div
-  class="offcanvas offcanvas-start"
-  data-bs-backdrop="static"
-  tabindex="-1"
-  id="staticBackdrop"
-  aria-labelledby="staticBackdropLabel"
->
-  <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="staticBackdropLabel">Offcanvas</h5>
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="offcanvas"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="offcanvas-body">
-    <div>I will not close if you click outside of me.</div>
+        <div class="dropdown pb-6">
+          <a
+            href="#"
+            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            id="dropdownUser1"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://github.com/mdo.png"
+              alt="hugenerd"
+              width="30"
+              height="30"
+              class="rounded-circle"
+            />
+            <span class="d-none d-sm-inline mx-1 w-44 truncate"
+              >nombre de usuario</span
+            >
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

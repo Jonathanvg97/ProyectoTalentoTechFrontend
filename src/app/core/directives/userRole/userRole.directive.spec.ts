@@ -1,6 +1,6 @@
-import { UserRoleDirective } from "./userRole.directive";
+import { UserRoleDirective } from './userRole.directive';
 
-describe('RolDirective', () => {
+describe('UserRolDirective', () => {
   it('should create an instance', () => {
     const directive = new UserRoleDirective();
     expect(directive).toBeTruthy();

@@ -35,20 +35,37 @@ export class LoginService {
       .post(`${base_url}/${base_url_auth}/login`, login)
       .pipe(
         tap((resp: any) => {
-          const { _id, name, email, role, createdAt, clientType } = resp.user;
-          this.user = new UserModel(
-            _id,
-            name,
-            email,
-            '',
-            role,
-            new Date(createdAt),
-            clientType
-          );
-          this.saveUserToLocalStorage(this.user, resp.token);
-          this.router.navigateByUrl('/homeOpportunity');
+          localStorage.setItem('token', resp.token);
+          this.user = resp.user; // asignar el usuario
+          localStorage.setItem('user', JSON.stringify(this.user)); // Guarda el usuario en localStorage
+          // console.log('Usuario logueado:', this.user);
         })
       );
+  }
+
+  isLoggedIn(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    return of(!!token);
+  }
+
+  getUserRole(): Observable<string> {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      return of(parsedUser.role);
+    }
+    return of(''); // Devolver un string vacío si no hay usuario
+  }
+
+  loadUserFromLocalStorage(): Promise<UserModel> {
+    return new Promise((resolve, reject) => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        this.user = JSON.parse(userData);
+        // console.log('Usuario cargado desde localStorage:', this.user);
+      }
+      resolve(this.user);
+    });
   }
 
   logout(id: string): Observable<any> {
@@ -57,6 +74,7 @@ export class LoginService {
       .pipe(
         tap(() => {
           localStorage.removeItem('token');
+          localStorage.removeItem('user');
           this.router.navigateByUrl('/home');
         }),
         catchError((error) => {
@@ -64,10 +82,5 @@ export class LoginService {
           return of(false);
         })
       );
-  }
-
-  private saveUserToLocalStorage(user: UserModel, token: string) {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user.role));
   }
 }

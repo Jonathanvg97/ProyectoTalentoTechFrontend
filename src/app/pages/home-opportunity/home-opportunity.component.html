@@ -1,41 +1,70 @@
 <!-- <div class="">
     <app-header [showSingUpButton]="true"></app-header>
   </div> -->
-<div class="flex flex-row">
-  <app-side-nav />
-  <section class="homeOpportunity mt-9 flex flex-col max-w-[1000px] ml-4">
-    <div class="flex flex-col">
-      <h3 class="text-3xl font-bold text-primary-dark flex justify-start mb-10">
-        Bienvenido a Opportunity Match
-      </h3>
+<div class="flex">
+  <app-side-nav></app-side-nav>
+  <section class="homeOpportunity flex flex-col min-w-[1000px]">
+    <h3 class="text-3xl font-bold text-primary-dark flex justify-start p-4">
+      Bienvenido a Opportunity Match
+    </h3>
 
+    <div class="z-0 absolute mt-20">
+      <img
+        src="assets/image/BannerHome.jpeg"
+        alt="Banner Home"
+        class="h-[280px] min-w-[1020px] opacity-20"
+      />
+    </div>
+
+    <ng-container *userAppRole="['ADMIN']">
+      <!-- Carrusel para administradores -->
       <p-carousel
         [value]="cardOptions"
         [numVisible]="4"
         [numScroll]="3"
         [circular]="false"
         [responsiveOptions]="responsiveOptions"
+        [style]="{ width: '90%' }"
+        class="w-full flex justify-around z-20 h-full items-center"
       >
-        <ng-template let-cardOption pTemplate="item">
-          <!-- Verificar el rol del usuario con la directiva userAppRole -->
-          <div *userAppRole="['USER']" class="card-container">
+        <ng-template
+          let-cardOption
+          pTemplate="item"
+          class="w-full flex justify-around z-20 h-full items-center"
+        >
+          <div class="card-container">
             <app-card-options
               [title]="cardOption.title"
               [icon]="cardOption.icon"
               [buttonText]="cardOption.buttonText"
+              [routeAction]="cardOption.routeButton"
             ></app-card-options>
           </div>
-          <!-- En caso de que el usuario no sea admin -->
-          <!-- <div *userAppRole="['USER']" class="card-container">
+        </ng-template>
+      </p-carousel>
+    </ng-container>
+
+    <ng-container *userAppRole="['USER']">
+      <!-- Renderizar tarjetas para usuarios normales -->
+      <div class="w-full flex justify-around z-20 h-full items-center">
+        <ng-container *ngFor="let cardOption of cardOptions">
+          <div
+            *ngIf="
+              cardOption.title === 'Ver Perfil' ||
+              cardOption.title === 'Ver Matches' ||
+              cardOption.title === 'Ver Ofertas'
+            "
+            class="card-container"
+          >
             <app-card-options
-              *ngIf="cardOption.title === 'Ver Perfil'"
               [title]="cardOption.title"
               [icon]="cardOption.icon"
               [buttonText]="cardOption.buttonText"
+              [routeAction]="cardOption.routeButton"
             ></app-card-options>
-          </div> -->
-        </ng-template>
-      </p-carousel>
-    </div>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
   </section>
 </div>

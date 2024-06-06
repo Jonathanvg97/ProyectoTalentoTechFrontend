@@ -1,18 +1,19 @@
-// import { inject } from '@angular/core';
-// import { CanActivateFn, Router } from '@angular/router';
-// import { UsuariosService } from '../../../services/usuarios/usuarios.service';
-// import { PATH } from '../../enum/path.enum';
-// import { tap } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { PATH } from '../../enum/path.enum';
+import { tap } from 'rxjs/operators';
+import { LoginService } from '../../../services/auth/login.service';
 
-// export const authGuard: CanActivateFn = (route, state) => {
-//   const usuariosService = inject(UsuariosService);
-//   const router = inject(Router);
+export const authGuard: CanActivateFn = (route, state) => {
+  const router = inject(Router);
+  const authService = inject(LoginService);
 
-//   return usuariosService.validateToken().pipe(
-//     tap((isAutenicado) => {
-//       if (!isAutenicado) {
-//         router.navigateByUrl(PATH.LOGIN);
-//       }
-//     })
-//   );
-// };
+  return authService.isLoggedIn().pipe(
+    tap((isLoggedIn: boolean) => {
+      if (!isLoggedIn) {
+        router.navigate([PATH.LOGIN]);
+      }
+    })
+  );
+};
+

@@ -1,12 +1,12 @@
-<div class="h-screen flex flex-col">
+<div class="imageBackground h-screen flex flex-col">
   <div class="">
     <app-header [showBakcButton]="true"></app-header>
   </div>
-  <section class="imageBackground flex-grow">
+  <section class="h-full flex w-full justify-center items-center">
     <form
       [formGroup]="loginForm"
       (ngSubmit)="logIn()"
-      class="max-w-md mx-auto my-8 px-4 py-6 bg-primary-light shadow-lg shadow-primary-dark rounded-lg border-2 border-secondary-dark"
+      class="max-w-md mx-auto my-8 px-4 py-6 bg-primary-light shadow-lg shadow-primary-dark rounded-lg border-2 border-secondary-dark w-full"
     >
       <h1
         class="text-3xl font-bold mb-4 justify-center flex text-secondary-light"

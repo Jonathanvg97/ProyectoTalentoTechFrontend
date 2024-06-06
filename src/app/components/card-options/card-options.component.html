@@ -11,7 +11,11 @@
     {{ title }}
     <br />
     <div class="name">
-      <button>{{ buttonText }}</button>
+      <button
+        [routerLink]="[routeAction]"
+      >
+        {{ buttonText }}
+      </button>
     </div>
   </div>
 </div>

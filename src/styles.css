@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  margin: 0;
+  padding: 0;
+}
 :root {
   --color-primary-light: #1d194dea;
   --color-primary: #3490dc;

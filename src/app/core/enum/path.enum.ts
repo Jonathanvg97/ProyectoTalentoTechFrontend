@@ -4,4 +4,5 @@ export enum PATH {
   LOGIN = 'login',
   USERS = 'users',
   CREATEUSER = 'createUser',
+  CREATEBUSINESS = 'createBusiness',
 }

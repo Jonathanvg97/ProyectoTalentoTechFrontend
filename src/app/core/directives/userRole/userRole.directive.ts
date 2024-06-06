@@ -14,7 +14,7 @@ import { LoginService } from '../../../services/auth/login.service';
 })
 export class UserRoleDirective implements OnInit {
   private user: UserModel;
-  private roles: string[];
+  private roles: string[] = [];
 
   constructor(
     private templateRef: TemplateRef<any>,
@@ -22,18 +22,17 @@ export class UserRoleDirective implements OnInit {
     private loginService: LoginService
   ) {}
 
-  
-
   ngOnInit(): void {
-    console.log('Actualizando la vista');
     this.user = this.loginService.user;
-    console.log('Directiva inicializada. Usuario:', this.user);
+    // console.log('Directiva inicializada. Usuario:', this.user);
     this.updateView();
   }
 
   @Input('userAppRole')
   set userAppRole(valor: string[]) {
     this.roles = valor;
+    // console.log('Roles recibidos:', this.roles);
+    this.updateView();
   }
 
   private updateView(): void {
@@ -44,16 +43,13 @@ export class UserRoleDirective implements OnInit {
   }
 
   private validateRoles(): boolean {
-    let hasRoles: boolean = false;
-
     if (this.user && this.user.role) {
-      for (let [index, role] of this.roles.entries()) {
-        if (this.user.role.toUpperCase() === role) {
-          hasRoles = true;
-          return hasRoles;
+      for (let role of this.roles) {
+        if (this.user.role.toUpperCase() === role.toUpperCase()) {
+          return true;
         }
       }
     }
-    return hasRoles;
+    return false;
   }
 }

@@ -13,7 +13,6 @@ import { UsersService } from './../../services/users/users.service';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CommonModule } from '@angular/common';
-import { userCreateInterface } from '../../core/interface/user.interface';
 import { ToastrService } from 'ngx-toastr';
 import {
   toasterErrorConfig,
@@ -87,7 +86,7 @@ export class FormCreateUserComponent implements OnInit {
           toasterSuccessConfig('Usuario creado exitosamente.')
         );
 
-        console.log(resp);
+        // console.log(resp);
         this.router.navigate(['/login']);
       },
       (error) => {

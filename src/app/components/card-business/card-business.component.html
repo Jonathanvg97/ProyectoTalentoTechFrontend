@@ -1,12 +1,12 @@
 <div class="flex imageBackground h-screen gap-3">
   <app-side-nav />
-  <section class="flex flex-col gap-3 h-full">
+  <section class="flex flex-col gap-3 h-full w-full p-4 ">
     <div
-      class="flex mt-10 w-full bg-primary-light p-3 rounded-lg h-[80px] justify-center items-center border-2 border-x-secondary-light"
+      class="flex mt-10 w-full bg-primary-light p-3 rounded-lg h-[80px] justify-between items-center border-2 border-x-secondary-light"
     >
       <b class="text-secondary-light w-36 flex ml-4 text-left">Nombre</b>
       <b class="text-secondary-light w-52 text-left">Descripción</b>
-      <b class="text-secondary-light w-20 -ml-10 text-left">Estado</b>
+      <b class="text-secondary-light w-20  text-left">Estado</b>
       <b class="text-secondary-light w-52 text-center">Industria</b>
       <b class="text-secondary-light w-32 text-left">Acciones</b>
     </div>
@@ -15,39 +15,40 @@
       <!-- Iterar sobre cada negocio y mostrar los detalles -->
       <ng-container *ngFor="let offert of business">
         <div
-          class="flex justify-between bg-primary-light p-6 rounded-lg h-[70px] items-center border-2 border-x-secondary-light"
+          class="flex justify-around
+           bg-primary-light p-6 rounded-lg h-[70px] items-center border-2 border-x-secondary-light"
         >
-          <span class="text-secondary-light text-left w-36 p-2">{{
+          <span class="text-secondary-light text-left w-36 ">{{
             offert?.title
           }}</span>
-          <span class="text-secondary-light text-left w-52 p-2 truncate">{{
+          <span class="text-secondary-light text-left w-52  truncate">{{
             offert?.description
           }}</span>
-          <span class="text-secondary-light text-left w-20 p-2">{{
+          <span class="text-secondary-light text-left w-20 ">{{
             offert?.status
           }}</span>
-          <span class="text-secondary-light text-center w-52 p-2">{{
+          <span class="text-secondary-light text-center w-52 ">{{
             offert.industry | industryTypes
           }}</span>
           <div class="flex flex-row gap-4">
             <button
               (click)="viewBusiness(offert._id)"
-              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light "
+              class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
             >
-            <i class="fa-solid fa-eye"></i>
+              <i class="fa-solid fa-eye"></i>
             </button>
 
             <button
               (click)="editBusiness(offert._id)"
               *userAppRole="['ADMIN']"
-              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light  "
+              class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
             >
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
             <button
               (click)="deleteBusiness(offert._id)"
               *userAppRole="['ADMIN']"
-              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light  "
+              class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
             >
               <i class="fa-solid fa-trash"></i>
             </button>

@@ -1,0 +1,50 @@
+<div class="flex imageBackground h-screen gap-3">
+  <app-side-nav />
+  <section class="flex flex-col gap-3 h-full">
+    <div
+      class="flex mt-10 w-full bg-primary-light p-3 rounded-lg h-[80px] justify-center items-center border-2 border-x-secondary-light"
+    >
+      <b class="text-secondary-light w-36 flex ml-4 text-left">Nombre</b>
+      <b class="text-secondary-light w-52 text-left">Descripción</b>
+      <b class="text-secondary-light w-20 -ml-10 text-left">Estado</b>
+      <b class="text-secondary-light w-52 text-center">Industria</b>
+      <b class="text-secondary-light w-32 text-left">Acciones</b>
+    </div>
+
+    <div class="w-full flex flex-col gap-2">
+      <!-- Iterar sobre cada negocio y mostrar los detalles -->
+      <ng-container *ngFor="let offert of business">
+        <div
+          class="flex justify-between bg-primary-light p-6 rounded-lg h-[70px] items-center border-2 border-x-secondary-light"
+        >
+          <span class="text-secondary-light text-left w-36 p-2">{{
+            offert?.title
+          }}</span>
+          <span class="text-secondary-light text-left w-52 p-2 truncate">{{
+            offert?.description
+          }}</span>
+          <span class="text-secondary-light text-left w-20 p-2">{{
+            offert?.status
+          }}</span>
+          <span class="text-secondary-light text-center w-52 p-2">{{
+            offert.industry | industryTypes
+          }}</span>
+          <button
+            (click)="viewBusiness(offert._id)"
+            class="text-secondary-dark text-left w-36 p-2"
+          >
+            Ver detalles
+          </button>
+
+          <button
+            (click)="deleteBusiness(offert._id)"
+            *userAppRole="['ADMIN']"
+            class="text-secondary-dark flex justify-start w-2"
+          >
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>
+      </ng-container>
+    </div>
+  </section>
+</div>

@@ -6,6 +6,7 @@ import { CardOptionsComponent } from '../../components/card-options/card-options
 import { CarouselModule } from 'primeng/carousel';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 import { FormCreateBussinessComponent } from '../../components/form-create-bussiness/form-create-bussiness.component';
+import { CardBusinessComponent } from '../../components/card-business/card-business.component';
 
 interface CardOption {
   title: string;
@@ -22,10 +23,11 @@ interface CardOption {
     SideNavComponent,
     CardOptionsComponent,
     FormCreateBussinessComponent,
+    CardBusinessComponent,
     CarouselModule,
     UserRoleDirective,
     RouterModule,
-    RouterLink,
+    RouterLink
   ],
   templateUrl: './home-opportunity.component.html',
   styleUrls: ['./home-opportunity.component.css'],
@@ -35,31 +37,31 @@ export class HomeOpportunityComponent implements OnInit {
     {
       title: 'Crear Oferta',
       icon: 'fa-solid fa-business-time',
-      buttonText: 'Crear Ofertas',
+      buttonText: 'Crear',
       routeButton: '/createBusiness',
     },
     {
       title: 'Ver Ofertas',
       icon: 'fa-solid fa-eye',
-      buttonText: 'Accion 1',
-      routeButton: '/login',
+      buttonText: 'Ver',
+      routeButton: '/allBusiness',
     },
     {
       title: 'Ver usuarios',
       icon: 'fa-solid fa-users',
-      buttonText: 'Acción 2',
+      buttonText: 'Ver',
       routeButton: '/',
     },
     {
       title: 'Ver Matches',
       icon: 'fa-solid fa-handshake',
-      buttonText: 'Acción 2',
+      buttonText: 'Ver',
       routeButton: '/',
     },
     {
       title: 'Ver Perfil',
       icon: 'fa-solid fa-cog',
-      buttonText: 'Acción 2',
+      buttonText: 'Ver',
       routeButton: '/',
     },
   ];

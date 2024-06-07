@@ -8,6 +8,10 @@ import { userResolver } from './core/resolvers/users/users.resolver';
 import { FormCreateBussinessComponent } from './components/form-create-bussiness/form-create-bussiness.component';
 import { authGuard } from './core/guards/auth/auth.guard';
 import { roleGuard } from './core/guards/roleAuth/role.guard';
+import { CardBusinessComponent } from './components/card-business/card-business.component';
+import { businessResolver } from './core/resolvers/business/business.resolver';
+import { CardDetailBusinessComponent } from './components/card-detail-business/card-detail-business.component';
+import { BusinessDetailsResolver } from './core/resolvers/business/business-detail.resolver';
 
 export const routes: Routes = [
   {
@@ -36,5 +40,23 @@ export const routes: Routes = [
     canActivate: [authGuard, roleGuard],
     data: { role: 'admin' },
     component: FormCreateBussinessComponent,
+  },
+  {
+    path: PATH.ALLBUSINESS,
+    canActivate: [authGuard],
+    component: CardBusinessComponent,
+    resolve: {
+      business : businessResolver,
+      user: userResolver,
+    }
+  },
+  {
+    path: PATH.DETAILBUSINESS,
+    canActivate: [authGuard],
+    component: CardDetailBusinessComponent,
+    resolve: {
+      businessDetail : BusinessDetailsResolver,
+      user: userResolver,
+    }
   },
 ];

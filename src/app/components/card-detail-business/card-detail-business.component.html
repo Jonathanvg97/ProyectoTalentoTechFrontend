@@ -1,0 +1,51 @@
+<div class="flex imageBackground h-screen gap-3">
+  <app-side-nav />
+  <section class="flex gap-3 h-full w-full justify-center">
+    <div class="flex flex-col justify-center">
+      <div class="z-10 mt-4">
+        <div class="card">
+          <h1
+            class="w-full justify-center flex text-secondary-light font-extrabold -mt-2 mb-2 text-lg"
+          >
+            {{ businessDetails?.title }}
+          </h1>
+          <i
+            class="fa-solid fa-business-time text-secondary-light text-6xl w-full justify-center flex mb-2"
+          ></i>
+          <div class="flex w-full justify-center items-center gap-3">
+            <div class="flex flex-col gap-3">
+              <b class="h-16">Descripción:</b>
+              <b>Industria:</b>
+              <b>Estado:</b>
+              <b>Fecha de creación:</b>
+              <b>Creado Por:</b>
+            </div>
+            <div class="flex flex-col gap-3">
+              <div class="flex flex-col w-64 max-h-16 overflow-auto">
+                <b class="text-justify text-sm overflow-y-auto px-6">
+                  {{ businessDetails?.description }}
+                </b>
+              </div>
+
+              <b class="w-20 flex truncate">{{ businessDetails?.industry}}</b>
+              <b class="w-20 flex truncate">{{ businessDetails?.status }}</b>
+              <b class="w-20 flex truncate">{{ businessDetails?.createdAt }}</b>
+              <b class="w-20 flex truncate">{{
+                businessDetails?.createdBy?.userName
+              }}</b>
+            </div>
+          </div>
+
+          <div class="flex w-full justify-center">
+            <button
+              *userAppRole="['USER']"
+              class="flex justify-center items-center text-lg text-secondary-light font-semibold whitespace-nowrap mt-4 w-32 h-10 bg-secondary-dark border border-secondary-light p-2 rounded-md shadow-sm shadow-secondary-light hover:bg-secondary hover:shadow-secondary-dark hover:shadow-lg hover:text-primary-dark"
+            >
+              Crear Match
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

@@ -5,6 +5,7 @@ export enum PATH {
   USERS = 'users',
   CREATEUSER = 'createUser',
   CREATEBUSINESS = 'createBusiness',
+  EDITBUSINESS = 'editBusiness/:id',
   ALLBUSINESS = 'allBusiness',
   DETAILBUSINESS= 'detailBusiness/:id'
 }

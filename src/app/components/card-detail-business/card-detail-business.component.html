@@ -20,14 +20,14 @@
               <b>Fecha de creación:</b>
               <b>Creado Por:</b>
             </div>
-            <div class="flex flex-col gap-3">
-              <div class="flex flex-col w-64 max-h-16 overflow-auto">
-                <b class="text-justify text-sm overflow-y-auto px-6">
+            <div class="flex flex-col gap-3 justify-center items-center">
+              <div class="flex flex-col w-64 h-16 overflow-auto">
+                <b class="text-justify text-sm overflow-y-auto px-2">
                   {{ businessDetails?.description }}
                 </b>
               </div>
 
-              <b class="w-20 flex truncate">{{ businessDetails?.industry}}</b>
+              <b class="w-20 flex truncate">{{ businessDetails?.industry }}</b>
               <b class="w-20 flex truncate">{{ businessDetails?.status }}</b>
               <b class="w-20 flex truncate">{{ businessDetails?.createdAt }}</b>
               <b class="w-20 flex truncate">{{

@@ -1,5 +1,5 @@
+import { businessInterface } from './../../core/interface/business.interface';
 import { Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
-import { businessInterface } from '../../core/interface/business.interface';
 import { BusinessService } from '../../services/business/business.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,7 +10,10 @@ import Swal from 'sweetalert2';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 import { CardDetailBusinessComponent } from '../card-detail-business/card-detail-business.component';
 import { ToastrService } from 'ngx-toastr';
-import { toasterErrorConfig, toasterSuccessConfig } from '../../helpers/toaster.helper';
+import {
+  toasterErrorConfig,
+  toasterSuccessConfig,
+} from '../../helpers/toaster.helper';
 import { BusinessDetailsService } from '../../services/business/busines-details.service';
 
 @Component({
@@ -82,6 +85,15 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
       },
     });
   }
+
+  editBusiness(id?: string) {
+    if (!id) {
+      console.error('El ID de la oferta no está definido');
+      return;
+    }
+      this.router.navigate([`/editBusiness/${id}`]);
+  }
+  
 
   deleteBusiness(id?: string) {
     if (!id) {

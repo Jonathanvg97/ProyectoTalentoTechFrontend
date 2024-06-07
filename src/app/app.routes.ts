@@ -32,11 +32,16 @@ export const routes: Routes = [
   },
   {
     path: PATH.CREATEUSER,
-    canActivate: [authGuard],
     component: FormCreateUserComponent,
   },
   {
     path: PATH.CREATEBUSINESS,
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'admin' },
+    component: FormCreateBussinessComponent,
+  },
+  {
+    path: PATH.EDITBUSINESS,
     canActivate: [authGuard, roleGuard],
     data: { role: 'admin' },
     component: FormCreateBussinessComponent,

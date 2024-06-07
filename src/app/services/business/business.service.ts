@@ -12,6 +12,8 @@ const base_url_business = environment.base_url_business;
 export class BusinessService {
   constructor(private httpClient: HttpClient) {}
 
+  business : businessInterface;
+
   get token(): string {
     return localStorage.getItem('token') || '';
   }
@@ -49,6 +51,14 @@ export class BusinessService {
   deleteByIdBusiness(id: string): Observable<any> {
     return this.httpClient.delete(
       `${base_url}/${base_url_business}/${id}`,
+      this.headers
+    );
+  }
+
+  editBusiness(id: string , business: businessInterface): Observable<any> {
+    return this.httpClient.put(
+      `${base_url}/${base_url_business}/${id}`,
+      business,
       this.headers
     );
   }

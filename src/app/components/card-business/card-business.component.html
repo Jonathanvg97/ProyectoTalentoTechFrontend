@@ -29,20 +29,29 @@
           <span class="text-secondary-light text-center w-52 p-2">{{
             offert.industry | industryTypes
           }}</span>
-          <button
-            (click)="viewBusiness(offert._id)"
-            class="text-secondary-dark text-left w-36 p-2"
-          >
-            Ver detalles
-          </button>
+          <div class="flex flex-row gap-4">
+            <button
+              (click)="viewBusiness(offert._id)"
+              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light "
+            >
+            <i class="fa-solid fa-eye"></i>
+            </button>
 
-          <button
-            (click)="deleteBusiness(offert._id)"
-            *userAppRole="['ADMIN']"
-            class="text-secondary-dark flex justify-start w-2"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
+            <button
+              (click)="editBusiness(offert._id)"
+              *userAppRole="['ADMIN']"
+              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light  "
+            >
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button
+              (click)="deleteBusiness(offert._id)"
+              *userAppRole="['ADMIN']"
+              class="text-secondary-dark flex scale-100  hover:scale-125 hover:text-secondary-light  "
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       </ng-container>
     </div>

@@ -1,7 +1,6 @@
+import { userCreateInterface } from './../../core/interface/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserModel } from '../../core/models/user.model';
-import { userCreateInterface } from '../../core/interface/user.interface';
 import { environment } from '../../../environments/environment.development';
 import { Observable } from 'rxjs';
 
@@ -33,9 +32,17 @@ export class UsersService {
     );
   }
 
-  getDetailByUserId(userId: string):Observable<any>  {
+  getDetailByUserId(userId: string): Observable<any> {
     return this.httpClient.get(
       `${base_url}/${base_url_users}/${userId}/`,
+      this.headers
+    );
+  }
+
+  updateUserById(userId: string, user: userCreateInterface) : Observable<any>{
+    return this.httpClient.put(
+      `${base_url}/${base_url_users}/${userId}/`,
+      user,
       this.headers
     );
   }

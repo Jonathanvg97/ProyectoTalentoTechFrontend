@@ -84,7 +84,6 @@ export class LoginService {
     return of(null);
   }
 
-
   logout(id: string): Observable<any> {
     return this.httpClient
       .post(`${base_url}/${base_url_auth}/signOut/${id}`, {}, this.headers)

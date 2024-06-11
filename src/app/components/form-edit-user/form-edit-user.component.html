@@ -1,0 +1,144 @@
+<div class="flex imageBackground h-screen gap-3">
+  <app-side-nav />
+  <div class="flex w-full justify-center items-center">
+    <form
+      [formGroup]="editForm"
+      (ngSubmit)="onSubmit()"
+      class="w-[400px] h-fit mx-auto px-4 py-4 bg-primary-light shadow-lg shadow-primary-dark rounded-lg border-2 border-secondary-dark"
+    >
+      <h1
+        class="text-3xl font-bold mb-4 justify-center flex text-secondary-light"
+      >
+        Actualizar Usuario
+      </h1>
+
+      <div class="mb-4">
+        <label for="name" class="block text-secondary-light font-semibold mb-2"
+          >Nombre</label
+        >
+        <input
+          type="text"
+          id="name"
+          placeholder="Nombre del usuario"
+          formControlName="name"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
+        />
+        <div *ngIf="isEdit && userForm['name'].errors">
+          <small
+            *ngIf="
+              userForm['name'].hasError('required') && userForm['name'].touched
+            "
+            class="text-secondary-light"
+          >
+            El nombre es requerido
+          </small>
+          <small
+            *ngIf="
+              userForm['name'].hasError('minlength') && userForm['name'].touched
+            "
+            class="text-secondary-light"
+          >
+            Debe tener al menos 6 caracteres
+          </small>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <label for="email" class="block text-secondary-light font-semibold mb-2"
+          >Correo electrónico</label
+        >
+        <input
+          type="email"
+          id="email"
+          placeholder="Email del usuario"
+          formControlName="email"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
+        />
+        <div *ngIf="isEdit && userForm['email'].errors">
+          <small
+            *ngIf="
+              userForm['email'].hasError('required') &&
+              userForm['email'].touched
+            "
+            class="text-secondary-light"
+          >
+            El correo electrónico es requerido
+          </small>
+          <small
+            *ngIf="
+              userForm['email'].hasError('email') && userForm['email'].touched
+            "
+            class="text-secondary-light"
+          >
+            Debe ser un correo electrónico válido
+          </small>
+        </div>
+        <small class="text-secondary-light">{{ errorMessage }}</small>
+      </div>
+
+      <div class="mb-4">
+        <label
+          for="password"
+          class="block text-secondary-light font-semibold mb-2"
+          >Contraseña</label
+        >
+        <input
+          type="password"
+          id="password"
+          placeholder="Contraseña del usuario"
+          formControlName="password"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
+        />
+        @if (!!isEdit && userForm['password'].hasError('required')) {
+        <small class="text-secondary-light"> El password es Obligarotio </small>
+        } @if(userForm['password'].hasError('required') &&
+        userForm['password'].touched) {
+        <small class="text-secondary-light"> El password es Obligarotio </small>
+        } @if ( userForm['password'].hasError('pattern')) {
+        <small class="text-secondary-light">
+          La contraseña debe tener al menos 8 caracteres, incluyendo una
+          mayúscula, una minúscula, un número y un carácter especial.
+        </small>
+        }
+      </div>
+
+      <div class="mb-6">
+        <label
+          for="clientType"
+          class="block text-secondary-light font-semibold mb-2"
+          >Tipo de Cliente</label
+        >
+        <select
+          id="clientType"
+          formControlName="clientType"
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary-light"
+        >
+          <option value="">Selecciona un tipo de cliente</option>
+          <option *ngFor="let key of clientTypeKeys" [value]="key">
+            {{ clientTypes[key] }}
+          </option>
+        </select>
+        <div *ngIf="isEdit && userForm['clientType'].errors">
+          <small
+            *ngIf="
+              userForm['clientType'].hasError('required') &&
+              userForm['clientType'].touched
+            "
+            class="text-secondary-light"
+          >
+            El tipo de cliente es requerido
+          </small>
+        </div>
+      </div>
+
+      <div class="justify-center flex">
+        <button
+          type="submit"
+          class="w-1/2 bg-secondary-dark border border-secondary-light text-white font-semibold py-2 px-4 rounded-md hover:bg-secondary hover:text-primary-light transition duration-300"
+        >
+          Actualizar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

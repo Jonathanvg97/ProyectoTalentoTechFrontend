@@ -16,14 +16,22 @@ export class SideNavComponent implements OnInit{
   userId: string | null = null;
   userName: string | null = null;
 
-  constructor(private loginService: LoginService,  private router: Router) {}
-
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private usersService: UsersService
+  ) {}
   ngOnInit(): void {
-    this.loginService.getUserNameFromToken().subscribe((name) => {
-    this.userName = name;
-    console.log(this.userName)
+    this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.usersService.getDetailByUserId(this.userId).subscribe((userDetail) => {
+          this.userName = userDetail.user.name;
+        });
+      }
     });
   }
+
   logOut(): void {
     this.loginService.getUserIdFromToken().subscribe((id) => {
       this.userId = id;

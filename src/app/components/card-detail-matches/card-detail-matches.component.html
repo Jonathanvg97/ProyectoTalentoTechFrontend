@@ -16,16 +16,35 @@
         <div
           class="flex justify-around bg-primary-light p-2 rounded-lg h-[70px] items-center border-2 border-x-secondary-light"
         >
-          <span class="text-secondary-dark text-left w-40 whitespace-nowrap">
-            {{ match?.match?.business?.businessName }}</span
-          >
+          <ng-container *userAppRole="['USER']">
+            <span
+              class="text-secondary-dark text-left w-40 whitespace-nowrap -ml-6"
+            >
+              {{ match?.match?.business?.businessName }}
+            </span>
 
-          <span class="text-secondary-light text-center w-52">{{
-            match?.match?.business?.businessType | industryTypes
-          }}</span>
-          <span class="text-secondary-light text-left w-20">{{
-            match?.match?.business?.response
-          }}</span>
+            <span class="text-secondary-light text-center w-52">{{
+              match?.match?.business?.businessType | industryTypes
+            }}</span>
+            <span class="text-secondary-light text-left w-20">{{
+              match?.match?.business?.response
+            }}</span>
+          </ng-container>
+
+          <ng-container *userAppRole="['ADMIN']">
+            <span
+              class="text-secondary-dark text-left w-40 whitespace-nowrap -ml-6"
+            >
+              {{ match?.match?.user?.userName }}
+            </span>
+
+            <span class="text-secondary-light text-center w-52">{{
+              match?.match?.user?.clientType | industryTypes
+            }}</span>
+            <span class="text-secondary-light text-left w-20">{{
+              match?.match?.user?.response
+            }}</span>
+          </ng-container>
 
           <div class="flex flex-row gap-4">
             <button
@@ -47,14 +66,14 @@
 </div>
 
 <!-- businessId
-: 
+:
 "664ec4c3abe7cbb5ce9a3696"
 businessName
-: 
+:
 "Desarrollador Full stack"
 businessType
-: 
+:
 "1"
 response
-: 
+:
 "cancelled" -->

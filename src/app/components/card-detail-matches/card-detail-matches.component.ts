@@ -11,7 +11,12 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-card-detail-matches',
   standalone: true,
-  imports: [SideNavComponent,UserRoleDirective, IndustryTypesPipe, CommonModule],
+  imports: [
+    SideNavComponent,
+    UserRoleDirective,
+    IndustryTypesPipe,
+    CommonModule,
+  ],
   templateUrl: './card-detail-matches.component.html',
   styleUrl: './card-detail-matches.component.css',
 })
@@ -44,7 +49,7 @@ export class CardDetailMatchesComponent implements OnInit {
               // Esperar a que se completen todas las solicitudes de matches
               forkJoin(matchObservables).subscribe((matches: any[]) => {
                 this.matchesByUserId = matches;
-                console.log(matches);
+                // console.log(matches);
               });
             }
           });

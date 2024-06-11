@@ -26,12 +26,15 @@
         </div>
         <div class="flex flex-row w-full justify-start gap-3 text-base">
           <b>Tipo: </b>
-          <span class="font-light text-justify">{{ getClientTypeLabel(userDetail?.user?.clientType) }}</span>
+          <span class="font-light text-justify">{{
+            getClientTypeLabel(userDetail?.user?.clientType)
+          }}</span>
         </div>
 
         <br />
         <div class="name flex justify-center items-center">
           <button
+            (click)="onEdit()"
             class="flex -mt-4 justify-center items-center text-lg text-secondary-light font-semibold whitespace-nowrap w-24 h-10 bg-secondary-dark border border-secondary-light rounded-md shadow-sm shadow-secondary-light hover:bg-secondary hover:shadow-secondary-dark hover:shadow-lg hover:text-primary-dark"
           >
             Actualizar

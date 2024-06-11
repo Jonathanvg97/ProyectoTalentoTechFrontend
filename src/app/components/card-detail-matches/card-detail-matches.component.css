@@ -1,0 +1,13 @@
+.imageBackground {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(255, 153, 0, 0.877),
+      rgb(0 0 255 / 50%)
+    ),
+    url("../../../assets/image/matchCreate.jpeg");
+  object-fit: cover;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+

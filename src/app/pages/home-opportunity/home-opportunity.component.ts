@@ -7,6 +7,8 @@ import { CarouselModule } from 'primeng/carousel';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 import { FormCreateBussinessComponent } from '../../components/form-create-bussiness/form-create-bussiness.component';
 import { CardBusinessComponent } from '../../components/card-business/card-business.component';
+import { CardDetailMatchesComponent } from '../../components/card-detail-matches/card-detail-matches.component';
+import { CardDetailUserComponent } from '../../components/card-detail-user/card-detail-user.component';
 
 interface CardOption {
   title: string;
@@ -24,10 +26,12 @@ interface CardOption {
     CardOptionsComponent,
     FormCreateBussinessComponent,
     CardBusinessComponent,
+    CardDetailMatchesComponent,
+    CardDetailUserComponent,
     CarouselModule,
     UserRoleDirective,
     RouterModule,
-    RouterLink
+    RouterLink,
   ],
   templateUrl: './home-opportunity.component.html',
   styleUrls: ['./home-opportunity.component.css'],
@@ -56,13 +60,13 @@ export class HomeOpportunityComponent implements OnInit {
       title: 'Ver Matches',
       icon: 'fa-solid fa-handshake',
       buttonText: 'Ver',
-      routeButton: '/',
+      routeButton: '/matchesByUser',
     },
     {
       title: 'Ver Perfil',
       icon: 'fa-solid fa-cog',
       buttonText: 'Ver',
-      routeButton: '/',
+      routeButton: '/userById',
     },
   ];
 

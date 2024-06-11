@@ -12,6 +12,8 @@ import { CardBusinessComponent } from './components/card-business/card-business.
 import { businessResolver } from './core/resolvers/business/business.resolver';
 import { CardDetailBusinessComponent } from './components/card-detail-business/card-detail-business.component';
 import { BusinessDetailsResolver } from './core/resolvers/business/business-detail.resolver';
+import { CardDetailMatchesComponent } from './components/card-detail-matches/card-detail-matches.component';
+import { CardDetailUserComponent } from './components/card-detail-user/card-detail-user.component';
 
 export const routes: Routes = [
   {
@@ -27,7 +29,7 @@ export const routes: Routes = [
     component: HomeOpportunityComponent,
     canActivate: [authGuard],
     resolve: {
-      user: userResolver,
+      userRole: userResolver,
     },
   },
   {
@@ -51,17 +53,27 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: CardBusinessComponent,
     resolve: {
-      business : businessResolver,
+      business: businessResolver,
       user: userResolver,
-    }
+    },
   },
   {
     path: PATH.DETAILBUSINESS,
     canActivate: [authGuard],
     component: CardDetailBusinessComponent,
     resolve: {
-      businessDetail : BusinessDetailsResolver,
+      businessDetail: BusinessDetailsResolver,
       user: userResolver,
-    }
+    },
+  },
+  {
+    path: PATH.MATCHESBYUSER,
+    canActivate: [authGuard],
+    component: CardDetailMatchesComponent,
+  },
+  {
+    path: PATH.USERBYID,
+    canActivate: [authGuard],
+    component: CardDetailUserComponent,
   },
 ];

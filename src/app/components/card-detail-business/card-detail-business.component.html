@@ -39,6 +39,7 @@
           <div class="flex w-full justify-center">
             <button
               *userAppRole="['USER']"
+              (click)="createMatch(businessDetails?._id)"
               class="flex justify-center items-center text-lg text-secondary-light font-semibold whitespace-nowrap mt-4 w-32 h-10 bg-secondary-dark border border-secondary-light p-2 rounded-md shadow-sm shadow-secondary-light hover:bg-secondary hover:shadow-secondary-dark hover:shadow-lg hover:text-primary-dark"
             >
               Crear Match

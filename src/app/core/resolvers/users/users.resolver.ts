@@ -10,5 +10,5 @@ export const userResolver: ResolveFn<any> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  return inject(LoginService).loadUserFromLocalStorage();
+  return inject(LoginService).getUserRoleFromToken();
 };

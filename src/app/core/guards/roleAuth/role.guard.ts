@@ -8,19 +8,21 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(LoginService);
 
-  return authService.getUserRole().pipe(
-    map((role: string) => {
+  return authService.getUserRoleFromToken().pipe(
+    map((role: string | null) => {
       const requiredRole = route.data['role']; // Accede al rol requerido desde la configuración de la ruta
       if (role === requiredRole) {
         return true;
       } else {
-        router.navigate([PATH.HOME]); // O cualquier otra página de redirección
+        router.navigate([PATH.HOME]);
         return false;
       }
     }),
     tap((hasAccess) => {
       if (!hasAccess) {
-        console.warn('Access denied - You do not have permission to view this page');
+        console.warn(
+          'Access denied - You do not have permission to view this page'
+        );
       }
     })
   );

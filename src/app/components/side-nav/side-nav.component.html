@@ -4,14 +4,14 @@
       class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary-light min-w-[250px]"
     >
       <div
-        class="d-flex flex-column align-items-center align-items-sm-start ml-1 pt-8 min-vh-100"
+        class="d-flex flex-column gap-3 align-items-center align-items-sm-start ml-1 pt-8 min-vh-100"
       >
         <span
           class="fs-5 d-none d-sm-inline text-secondary-dark font-semibold mb-6"
           >Menu</span
         >
         <ul
-          class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+          class="nav nav-pills flex-column gap-2 mb-sm-auto mb-0 align-items-center align-items-sm-start"
           id="menu"
         >
           <li class="nav-item">
@@ -30,13 +30,26 @@
           </li>
           <li>
             <a
-            [routerLink]="['/allBusiness']"
+              [routerLink]="['/allBusiness']"
               class="nav-link px-0 align-middle"
             >
               <i class="fa-solid fa-gauge text-secondary-dark"></i>
               <span
                 class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
                 >Ofertas</span
+              >
+            </a>
+          </li>
+
+          <li>
+            <a
+              [routerLink]="['/matchesByUser']"
+              class="nav-link px-0 align-middle"
+            >
+              <i class="fa-solid fa-business-time text-secondary-dark"></i>
+              <span
+                class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
+                >Match</span
               >
             </a>
           </li>
@@ -62,12 +75,9 @@
               >nombre de usuario</span
             >
           </a>
-          <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow bg-secondary-dark ">
+            <li><a class="dropdown-item text-primary-light" [routerLink]="['/userById']">Profile</a></li>
+            <li><a class="dropdown-item text-primary-light" href="#">Sign out</a></li>
           </ul>
         </div>
       </div>

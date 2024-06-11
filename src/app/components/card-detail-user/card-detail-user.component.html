@@ -1,0 +1,43 @@
+<div class="flex imageBackground h-screen gap-3">
+  <app-side-nav />
+  <div class="flex w-full justify-center items-center">
+    <div class="e-card playing">
+      <div class="image"></div>
+
+      <div class="wave"></div>
+      <div class="wave"></div>
+      <div class="wave"></div>
+
+      <div class="infotop mt-4 flex flex-col gap-2 p-4">
+        <div class="flex justify-center w-full -mt-4 pb-2">
+          <i class="fa-regular fa-user text-secondary-dark text-6xl"></i>
+        </div>
+        <div class="flex flex-row w-full justify-start gap-3">
+          <b>Nombre: </b>
+          <span class="font-light">{{ userDetail?.user?.name }}</span>
+        </div>
+        <div class="flex flex-row w-full justify-start gap-3">
+          <b>Email: </b>
+          <span class="font-light">{{ userDetail?.user?.email }}</span>
+        </div>
+        <div class="flex flex-row w-full justify-start gap-3">
+          <b>Rol: </b>
+          <span class="font-light">{{ userDetail?.user?.role }}</span>
+        </div>
+        <div class="flex flex-row w-full justify-start gap-3 text-base">
+          <b>Tipo: </b>
+          <span class="font-light text-justify">{{ getClientTypeLabel(userDetail?.user?.clientType) }}</span>
+        </div>
+
+        <br />
+        <div class="name flex justify-center items-center">
+          <button
+            class="flex -mt-4 justify-center items-center text-lg text-secondary-light font-semibold whitespace-nowrap w-24 h-10 bg-secondary-dark border border-secondary-light rounded-md shadow-sm shadow-secondary-light hover:bg-secondary hover:shadow-secondary-dark hover:shadow-lg hover:text-primary-dark"
+          >
+            Actualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

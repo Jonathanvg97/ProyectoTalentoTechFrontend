@@ -1,22 +1,27 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
-import { Observable, catchError, map, of, tap } from 'rxjs';
+import { Observable, of, catchError, tap } from 'rxjs';
 import { UserModel } from '../../core/models/user.model';
 import { LoginInterface } from '../../core/interface/login.interface';
+import { JwtDecodedService } from '../jwt/jwt-decoded.service';
 
 const base_url = environment.base_url;
 const base_url_auth = environment.base_url_auth;
+
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private router = inject(Router);
-
+  private router: Router;
+  private jwtDecodedService: JwtDecodedService;
   user: UserModel;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient, router: Router) {
+    this.router = router;
+    this.jwtDecodedService = new JwtDecodedService();
+  }
 
   get token(): string {
     return localStorage.getItem('token') || '';
@@ -30,15 +35,19 @@ export class LoginService {
     };
   }
 
-  loginUser(login: LoginInterface): Observable<any> {
+  loginUser(login: any): Observable<any> {
     return this.httpClient
       .post(`${base_url}/${base_url_auth}/login`, login)
       .pipe(
         tap((resp: any) => {
           localStorage.setItem('token', resp.token);
-          this.user = resp.user; // asignar el usuario
-          localStorage.setItem('user', JSON.stringify(this.user)); // Guarda el usuario en localStorage
-          // console.log('Usuario logueado:', this.user);
+          const decodedToken = this.jwtDecodedService.decodeToken(resp.token);
+          // console.log('User ID:', decodedToken._id);
+          // console.log('User Role:', decodedToken.role);
+        }),
+        catchError((error) => {
+          console.error('Error during login:', error);
+          return of(null);
         })
       );
   }
@@ -48,25 +57,24 @@ export class LoginService {
     return of(!!token);
   }
 
-  getUserRole(): Observable<string> {
-    const user = localStorage.getItem('user');
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      return of(parsedUser.role);
+  getUserIdFromToken(): Observable<string | null> {
+    const token = this.token;
+    if (token) {
+      const decodedToken = this.jwtDecodedService.decodeToken(token);
+      return of(decodedToken?._id || null);
     }
-    return of(''); // Devolver un string vacío si no hay usuario
+    return of(null);
   }
 
-  loadUserFromLocalStorage(): Promise<UserModel> {
-    return new Promise((resolve, reject) => {
-      const userData = localStorage.getItem('user');
-      if (userData) {
-        this.user = JSON.parse(userData);
-        // console.log('Usuario cargado desde localStorage:', this.user);
-      }
-      resolve(this.user);
-    });
+  getUserRoleFromToken(): Observable<string | null> {
+    const token = this.token;
+    if (token) {
+      const decodedToken = this.jwtDecodedService.decodeToken(token);
+      return of(decodedToken?.role || null);
+    }
+    return of(null);
   }
+
 
   logout(id: string): Observable<any> {
     return this.httpClient

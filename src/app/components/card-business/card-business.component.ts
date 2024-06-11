@@ -1,8 +1,7 @@
-import { businessInterface } from './../../core/interface/business.interface';
-import { Component, Inject, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BusinessService } from '../../services/business/business.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { IndustryTypesPipe } from '../../pipes/industry-types.pipe';
@@ -15,6 +14,10 @@ import {
   toasterSuccessConfig,
 } from '../../helpers/toaster.helper';
 import { BusinessDetailsService } from '../../services/business/busines-details.service';
+import { UsersService } from '../../services/users/users.service';
+import { MatchesService } from '../../services/matches/matches.service';
+import { LoginService } from '../../services/auth/login.service';
+import { businessInterface } from '../../core/interface/business.interface';
 
 @Component({
   selector: 'app-card-business',
@@ -27,38 +30,75 @@ import { BusinessDetailsService } from '../../services/business/busines-details.
     CardDetailBusinessComponent,
   ],
   templateUrl: './card-business.component.html',
-  styleUrl: './card-business.component.css',
+  styleUrls: ['./card-business.component.css'],
 })
 export class CardBusinessComponent implements OnInit, OnDestroy {
   business: businessInterface[] = [];
-  businessSelected: businessInterface | null = null;
+  unmatchedBusiness: businessInterface[] = [];
   businessSubscription: Subscription;
+  userId: string | null = null;
   errorMessage: string = '';
 
   constructor(
     private businessService: BusinessService,
     private businessDetailsService: BusinessDetailsService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private userService: UsersService,
+    private matchesService: MatchesService,
+    private loginService: LoginService
   ) {}
 
   ngOnInit(): void {
-    this.loadBusiness();
+    this.loadUserAndBusiness();
   }
 
   ngOnDestroy(): void {
     this.businessSubscription?.unsubscribe();
   }
-
-  loadBusiness() {
-    this.businessSubscription = this.businessService
-      .getAllBusiness()
-      .subscribe((resp: any) => {
-        // console.log(resp); //
-        this.business = resp.businessOpportunity;
-        // console.log(this.business);
-      });
+  loadUserAndBusiness() {
+    this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.userService.getDetailByUserId(this.userId).subscribe((user: any) => {
+          const matchIds = user.user.matches;
+          if (matchIds.length > 0) {
+            const matchDetailsObservables: Observable<any>[] = matchIds.map((matchId: string): Observable<any> =>
+              this.matchesService.getMatchById(matchId)
+            );
+            forkJoin(matchDetailsObservables).subscribe((matchDetailsArray: any[]) => {
+              // Obtener los businessIds de las ofertas con las que ha hecho match el usuario
+              const matchedBusinessIds = matchDetailsArray.map((matchDetails: any) => matchDetails.match.business.businessId);
+  
+              // Cargar todas las ofertas
+              this.businessService.getAllBusiness().subscribe((resp: any) => {
+                this.business = resp.businessOpportunity;
+                // Filtrar las ofertas para encontrar las que no ha hecho match
+                this.unmatchedBusiness = this.business.filter((business) => {
+                  // Comprobar si el ID del negocio no está en los IDs de negocios con match
+                  const isMatched = matchedBusinessIds.includes(business._id);
+                  // Retornar true si no se encontró coincidencia, es decir, si no ha hecho match
+                  return !isMatched;
+                });
+              });
+            });
+          } else {
+            // Si no hay matches, cargar todas las ofertas
+            this.loadAllBusiness();
+          }
+        });
+      }
+    });
   }
+  
+  
+  loadAllBusiness() {
+    this.businessSubscription = this.businessService.getAllBusiness().subscribe((resp: any) => {
+      this.business = resp.businessOpportunity;
+      this.unmatchedBusiness = [...this.business]; // Mostrar todas las ofertas
+    });
+  }
+  
 
   viewBusiness(id?: string) {
     if (!id) {
@@ -67,7 +107,7 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
     }
     this.businessService.getByIdBusiness(id).subscribe({
       next: (resp: any) => {
-        this.businessDetailsService.setBusinessDetails(resp.oportunity); // Almacena los detalles del negocio
+        this.businessDetailsService.setBusinessDetails(resp.oportunity);
         this.toastr.success(
           `Oportunidad de negocio encontrada exitosamente`,
           'Success',
@@ -91,9 +131,8 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
       console.error('El ID de la oferta no está definido');
       return;
     }
-      this.router.navigate([`/editBusiness/${id}`]);
+    this.router.navigate([`/editBusiness/${id}`]);
   }
-  
 
   deleteBusiness(id?: string) {
     if (!id) {
@@ -118,7 +157,7 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
               icon: 'success',
               confirmButtonColor: '#3085d6',
             });
-            this.loadBusiness();
+            // this.loadBusiness();
           },
           error: (err) => {
             console.error(err);

@@ -5,22 +5,50 @@ import { businessInterface } from '../../core/interface/business.interface';
 import { BusinessDetailsService } from '../../services/business/busines-details.service';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 import { IndustryTypesPipe } from '../../pipes/industry-types.pipe';
+import { MatchesService } from '../../services/matches/matches.service';
+import { LoginService } from '../../services/auth/login.service';
 
 @Component({
   selector: 'app-card-detail-business',
   standalone: true,
   imports: [SideNavComponent, UserRoleDirective, IndustryTypesPipe],
   templateUrl: './card-detail-business.component.html',
-  styleUrl: './card-detail-business.component.css',
+  styleUrls: ['./card-detail-business.component.css'],
 })
 export class CardDetailBusinessComponent implements OnInit {
   businessDetails: businessInterface | null = null;
+  userId: string | null = null; // Almacenar el ID del usuario
 
-  constructor(private businessDetailsService: BusinessDetailsService) {}
+  constructor(
+    private businessDetailsService: BusinessDetailsService,
+    private matchService: MatchesService,
+    private loginService: LoginService
+
+  ) {}
 
   ngOnInit(): void {
     this.businessDetailsService.getBusinessDetails().subscribe((details) => {
       this.businessDetails = details;
     });
+
+     // Obtener el ID del usuario
+     this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+    });
+  }
+
+  createMatch(businessId: string | undefined) {
+    if (this.userId && businessId) {
+      this.matchService.createMatch(this.userId, businessId).subscribe({
+        next: () => {
+          console.log('Match creado exitosamente');
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+    } else {
+      console.error('UserId or BusinessId is undefined');
+    }
   }
 }

@@ -75,6 +75,15 @@ export class LoginService {
     return of(null);
   }
 
+  getUserNameFromToken(): Observable<string | null> {
+    const token = this.token;
+    if (token) {
+      const decodedToken = this.jwtDecodedService.decodeToken(token);
+      return of(decodedToken?.name || null);
+    }
+    return of(null);
+  }
+
 
   logout(id: string): Observable<any> {
     return this.httpClient

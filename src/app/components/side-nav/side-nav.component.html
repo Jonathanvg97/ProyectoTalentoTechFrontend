@@ -64,20 +64,15 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <img
-              src="https://github.com/mdo.png"
-              alt="hugenerd"
-              width="30"
-              height="30"
-              class="rounded-circle"
-            />
+          
+            <i class="fa-solid fa-user-tie rounded-circle text-secondary-dark text-2xl mr-2"></i>
             <span class="d-none d-sm-inline mx-1 w-44 truncate"
               >nombre de usuario</span
             >
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow bg-secondary-dark ">
-            <li><a class="dropdown-item text-primary-light" [routerLink]="['/userById']">Profile</a></li>
-            <li><a class="dropdown-item text-primary-light" href="#">Sign out</a></li>
+            <li><a class="dropdown-item text-primary-light cursor-pointer" [routerLink]="['/userById']">Profile</a></li>
+            <li><a class="dropdown-item text-primary-light cursor-pointer" (click)="logOut()">Sign out</a></li>
           </ul>
         </div>
       </div>

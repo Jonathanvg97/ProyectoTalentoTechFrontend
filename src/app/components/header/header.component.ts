@@ -15,31 +15,4 @@ import { PATH } from '../../core/enum/path.enum';
 export class HeaderComponent {
   @Input() showLoginButton: boolean = false;
   @Input() showBakcButton: boolean = false;
-  @Input() showSingUpButton: boolean = false;
-
-  constructor(private loginService: LoginService, private router: Router) {}
-
-  logOut() {
-    const userId = this.loginService.user?._id;
-    if (userId) {
-      this.loginService.logout(userId).subscribe({
-        next: () => {
-          Swal.fire({
-            html: 'Sesión Cerrada',
-          }).then(() => {
-            this.router.navigateByUrl(PATH.HOME);
-          });
-        },
-        error: (error: any) => {
-          Swal.fire({
-            html: ` ${error.error.msg}`,
-          });
-        },
-      });
-    } else {
-      Swal.fire({
-        html: 'Error: Usuario no está definido.',
-      });
-    }
-  }
 }

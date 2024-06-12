@@ -7,6 +7,9 @@ import { SideNavComponent } from '../side-nav/side-nav.component';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 import { IndustryTypesPipe } from '../../pipes/industry-types.pipe';
 import { CommonModule } from '@angular/common';
+import { NotificationsService } from '../../services/notifications/notifications.service';
+import Swal from 'sweetalert2';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-detail-matches',
@@ -22,13 +25,44 @@ import { CommonModule } from '@angular/common';
 })
 export class CardDetailMatchesComponent implements OnInit {
   userId: string | null = null;
+  userRole: string | null = null;
   matchesByUserId: any[] = [];
 
   constructor(
     private userService: UsersService,
     private matchesService: MatchesService,
-    private loginService: LoginService
+    private notificationsService: NotificationsService,
+    private loginService: LoginService,
+    private router: Router
   ) {}
+
+  acceptedMatchedById(notificationId: string): void {
+    this.loginService.getUserRoleFromToken().subscribe((role) => {
+      this.userRole = role;
+      if (this.userRole) {
+        this.notificationsService
+          .acceptedMatchedById(notificationId, this.userRole)
+          .subscribe((res) => {
+            Swal.fire('¡Match aceptado!', '', 'success');
+            this.router.navigate(['/matchesByUser']);
+          });
+      }
+    });
+  }
+
+  canceledMatchedById(notificationId: string): void {
+    this.loginService.getUserRoleFromToken().subscribe((role) => {
+      this.userRole = role;
+      if (this.userRole) {
+        this.notificationsService
+          .canceledMatchedById(notificationId, this.userRole)
+          .subscribe((res) => {
+            Swal.fire('¡Match cancelado!', '', 'success');
+            this.router.navigate(['/matchesByUser']);
+          });
+      }
+    });
+  }
 
   ngOnInit(): void {
     // Obtener el userId del token

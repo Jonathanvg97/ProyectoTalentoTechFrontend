@@ -5,4 +5,5 @@ export const environment = {
   base_url_auth: 'api/auth',
   base_url_business: 'api/businessOpportunity',
   base_url_matches: 'api/match',
+  base_url_notifications: 'api/notificationMatch',
 };

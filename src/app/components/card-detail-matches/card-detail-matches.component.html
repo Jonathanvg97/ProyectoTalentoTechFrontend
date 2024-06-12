@@ -11,6 +11,10 @@
       <b class="text-secondary-light w-40 text-left">Acciones</b>
     </div>
 
+    <div *ngIf="matchesByUserId.length === 0" class="text-secondary-light">
+      <h1>No tienes ningún match.</h1>
+    </div>
+
     <div class="w-full flex flex-col gap-2">
       <ng-container *ngFor="let match of matchesByUserId">
         <div
@@ -49,12 +53,16 @@
           <div class="flex flex-row gap-4">
             <button
               class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
+              [disabled]="match?.match?.business?.response !== 'pending'"
+              (click)="canceledMatchedById(match?.match?.notificationId)"
             >
               <i class="fa-solid fa-ban"></i> Cancelar
             </button>
 
             <button
+              (click)="acceptedMatchedById(match?.match?.notificationId)"
               class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
+              [disabled]="match?.match?.business?.response !== 'pending'"
             >
               <i class="fa-regular fa-circle-check"></i> Aceptar
             </button>
@@ -64,16 +72,3 @@
     </div>
   </section>
 </div>
-
-<!-- businessId
-:
-"664ec4c3abe7cbb5ce9a3696"
-businessName
-:
-"Desarrollador Full stack"
-businessType
-:
-"1"
-response
-:
-"cancelled" -->

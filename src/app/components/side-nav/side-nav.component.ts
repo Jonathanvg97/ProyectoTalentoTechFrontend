@@ -4,17 +4,21 @@ import { LoginService } from '../../services/auth/login.service';
 import Swal from 'sweetalert2';
 import { PATH } from '../../core/enum/path.enum';
 import { UsersService } from '../../services/users/users.service';
+import { NotificationsByUserComponent } from '../notifications-by-user/notifications-by-user.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, NotificationsByUserComponent, CommonModule],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.css',
 })
-export class SideNavComponent implements OnInit{
+export class SideNavComponent implements OnInit {
   userId: string | null = null;
   userName: string | null = null;
+  showOffcanvas: boolean = false;
+
 
   constructor(
     private loginService: LoginService,
@@ -25,11 +29,21 @@ export class SideNavComponent implements OnInit{
     this.loginService.getUserIdFromToken().subscribe((id) => {
       this.userId = id;
       if (this.userId) {
-        this.usersService.getDetailByUserId(this.userId).subscribe((userDetail) => {
-          this.userName = userDetail.user.name;
-        });
+        this.usersService
+          .getDetailByUserId(this.userId)
+          .subscribe((userDetail) => {
+            this.userName = userDetail.user.name;
+          });
       }
     });
+  }
+
+  openOffCanvas(): void {
+    this.showOffcanvas = true;
+  }
+
+  closeOffcanvas(): void {
+    this.showOffcanvas = false;
   }
 
   logOut(): void {

@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  base_url: 'https://proyecto-talento-tech.vercel.app',
+  base_url: 'http://localhost:4000',
   base_url_users: 'api/users',
   base_url_auth: 'api/auth',
   base_url_business: 'api/businessOpportunity',

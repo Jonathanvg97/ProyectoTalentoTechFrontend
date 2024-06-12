@@ -50,22 +50,56 @@
             }}</span>
           </ng-container>
 
-          <div class="flex flex-row gap-4">
-            <button
-              class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
-              [disabled]="match?.match?.business?.response !== 'pending'"
-              (click)="canceledMatchedById(match?.match?.notificationId)"
-            >
-              <i class="fa-solid fa-ban"></i> Cancelar
-            </button>
+          <div
+            *ngIf="
+              (userRole === 'admin' &&
+                match?.match?.business?.response === 'pending') ||
+              (userRole === 'user' &&
+                match?.match?.user?.response === 'pending')
+            "
+          >
+            <div class="flex flex-row gap-4">
+              <button
+                class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
+                [disabled]="
+                  (userRole === 'admin' &&
+                    match?.match?.business?.response !== 'pending') ||
+                  (userRole === 'user' &&
+                    match?.match?.user?.response !== 'pending')
+                "
+                (click)="canceledMatchedById(match?.match?.notificationId)"
+              >
+                <i class="fa-solid fa-ban"></i> Cancelar
+              </button>
 
-            <button
-              (click)="acceptedMatchedById(match?.match?.notificationId)"
-              class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
-              [disabled]="match?.match?.business?.response !== 'pending'"
-            >
-              <i class="fa-regular fa-circle-check"></i> Aceptar
-            </button>
+              <button
+                (click)="acceptedMatchedById(match?.match?.notificationId)"
+                class="text-secondary-dark flex flex-col scale-100 hover:scale-125 hover:text-secondary-light items-center gap-2"
+                [disabled]="
+                  (userRole === 'admin' &&
+                    match?.match?.business?.response !== 'pending') ||
+                  (userRole === 'user' &&
+                    match?.match?.user?.response !== 'pending')
+                "
+              >
+                <i class="fa-regular fa-circle-check"></i> Aceptar
+              </button>
+            </div>
+          </div>
+
+          <div
+            *ngIf="
+              (userRole === 'admin' &&
+                match?.match?.business?.response! !== 'pending') ||
+              (userRole === 'user' &&
+                match?.match?.user?.response !== 'pending')
+            "
+          >
+            <div class="flex w-44 whitespace-nowrap -ml-6">
+              <span class="text-secondary-dark"
+                >Ya respondiste a este match</span
+              >
+            </div>
           </div>
         </div>
       </ng-container>

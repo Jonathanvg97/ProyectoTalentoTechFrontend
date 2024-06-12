@@ -4,7 +4,6 @@
       class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-primary-light min-w-[250px] overflow-x-hidden"
     >
       <div
-        *ngIf="!showOffcanvas"
         class="d-flex flex-column gap-3 align-items-center align-items-sm-start ml-1 pt-8 min-vh-100"
       >
         <span
@@ -54,14 +53,23 @@
               >
             </a>
           </li>
+          <li *userAppRole="['admin']">
+            <a [routerLink]="['/allUsers']" class="nav-link px-0 align-middle">
+              <i class="fa-solid fa-users text-secondary-dark"></i>
+              <span
+                class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
+                >Usuarios</span
+              >
+            </a>
+          </li>
           <li>
-            <i class="fa-solid fa-bell text-secondary-dark"></i>
-            <button
-              (click)="openOffCanvas()"
+            <a
+              [routerLink]="['/notifications']"
               class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
             >
+              <i class="fa-solid fa-bell text-secondary-dark"></i>
               Notificaciones
-            </button>
+            </a>
           </li>
         </ul>
         <hr />
@@ -100,12 +108,6 @@
             </li>
           </ul>
         </div>
-      </div>
-
-      <div *ngIf="showOffcanvas" class="mt-4 min-vh-100">
-        <app-notifications-by-user
-          [closeOffcanvas]="closeOffcanvas.bind(this)"
-        />
       </div>
     </div>
   </div>

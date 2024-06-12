@@ -9,7 +9,7 @@ import { IndustryTypesPipe } from '../../pipes/industry-types.pipe';
 import { CommonModule } from '@angular/common';
 import { NotificationsService } from '../../services/notifications/notifications.service';
 import Swal from 'sweetalert2';
-import { Route, Router } from '@angular/router';
+import {Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-detail-matches',
@@ -65,6 +65,9 @@ export class CardDetailMatchesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loginService.getUserRoleFromToken().subscribe((role) => {
+      this.userRole = role;
+    });
     // Obtener el userId del token
     this.loginService.getUserIdFromToken().subscribe((id) => {
       this.userId = id;

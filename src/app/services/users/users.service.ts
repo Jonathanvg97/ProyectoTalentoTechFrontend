@@ -46,4 +46,8 @@ export class UsersService {
       this.headers
     );
   }
+
+  getAllUsers(): Observable<any> {
+    return this.httpClient.get(`${base_url}/${base_url_users}/list`, this.headers);
+  }
 }

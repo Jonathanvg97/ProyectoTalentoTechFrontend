@@ -15,6 +15,8 @@ import { BusinessDetailsResolver } from './core/resolvers/business/business-deta
 import { CardDetailMatchesComponent } from './components/card-detail-matches/card-detail-matches.component';
 import { CardDetailUserComponent } from './components/card-detail-user/card-detail-user.component';
 import { FormEditUserComponent } from './components/form-edit-user/form-edit-user.component';
+import { NotificationsByUserComponent } from './components/notifications-by-user/notifications-by-user.component';
+import { CardUsersComponent } from './components/card-users/card-users/card-users.component';
 
 export const routes: Routes = [
   {
@@ -79,8 +81,20 @@ export const routes: Routes = [
     component: CardDetailUserComponent,
   },
   {
+    path: PATH.ALLUSERS,
+    canActivate: [authGuard, roleGuard],
+    data: { role: 'admin' },
+    component: CardUsersComponent,
+  },
+  {
     path: PATH.EDITUSER,
-    canActivate: [authGuard],
+    canActivate: [authGuard, roleGuard],
     component: FormEditUserComponent,
+  },
+  {
+    path: PATH.NOTIFICATIONS,
+    canActivate: [authGuard],
+    data: { role: ['user', 'admin'] },
+    component: NotificationsByUserComponent,
   },
 ];

@@ -4,21 +4,19 @@ import { LoginService } from '../../services/auth/login.service';
 import Swal from 'sweetalert2';
 import { PATH } from '../../core/enum/path.enum';
 import { UsersService } from '../../services/users/users.service';
-import { NotificationsByUserComponent } from '../notifications-by-user/notifications-by-user.component';
 import { CommonModule } from '@angular/common';
+import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [RouterLink, NotificationsByUserComponent, CommonModule],
+  imports: [RouterLink, CommonModule, UserRoleDirective],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.css',
 })
 export class SideNavComponent implements OnInit {
   userId: string | null = null;
   userName: string | null = null;
-  showOffcanvas: boolean = false;
-
 
   constructor(
     private loginService: LoginService,
@@ -36,14 +34,6 @@ export class SideNavComponent implements OnInit {
           });
       }
     });
-  }
-
-  openOffCanvas(): void {
-    this.showOffcanvas = true;
-  }
-
-  closeOffcanvas(): void {
-    this.showOffcanvas = false;
   }
 
   logOut(): void {

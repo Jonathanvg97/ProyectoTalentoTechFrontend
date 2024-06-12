@@ -1,31 +1,46 @@
-<div class="">
-  <div class="flex items-center gap-1 justify-center w-full">
-    <button (click)="handleClose()">
-      <i class="fa-solid fa-bell text-secondary-dark"></i>
-      <b class="text-secondary-dark font-bold flex w-full ml-3"
-        >Notificaciones</b
-      >
-    </button>
-  </div>
-  <div *ngIf="notificationDetail" class="bg-secondary-dark p-2 rounded-lg mt-2">
-    <ng-container *ngIf="notificationDetail.length > 0; else noNotifications">
-      <div *ngFor="let notification of notificationDetail">
-        <div *ngIf="userRole === 'admin' && notification.status === 'pending'">
-          <p class="text-primary-dark">{{ notification.userMessages.admin }}</p>
-          <b class="text-primary-dark">
-            Accepted By User: <span>{{ notification.acceptedByUser }}</span>
-          </b>
+<div class="flex imageBackground h-screen gap-3">
+  <app-side-nav />
+
+  <div class="flex flex-col w-full p-4">
+    <h1
+      class="text-primary-light font-bold flex w-full justify-center text-3xl"
+    >
+      Notificaciones
+    </h1>
+
+    <div
+      *ngIf="notificationDetail"
+      class="w-full flex justify-center flex-col items-center"
+    >
+      <ng-container *ngIf="notificationDetail.length > 0; else noNotifications">
+        <div
+          *ngFor="let notification of notificationDetail"
+          class="bg-secondary-dark p-2 rounded-lg mt-2 border-2 border-x-secondary-light"
+        >
+          <div
+            class="flex w-full justify-center items-center"
+            *ngIf="userRole === 'admin' && notification.status === 'pending'"
+          >
+            <p class="text-primary-dark">
+              {{ notification.userMessages.admin }}
+            </p>
+            <b class="text-primary-dark">
+              Accepted By User: <span>{{ notification.acceptedByUser }}</span>
+            </b>
+          </div>
+          <div *ngIf="userRole === 'user' && notification.status === 'pending'">
+            <p class="text-primary-dark">
+              {{ notification.userMessages.user }}
+            </p>
+            <b class="text-primary-dark">
+              Accepted By User: <span>{{ notification.acceptedByAdmin }}</span>
+            </b>
+          </div>
         </div>
-        <div *ngIf="userRole === 'user' && notification.status === 'pending'">
-          <p class="text-primary-dark">{{ notification.userMessages.user }}</p>
-          <b class="text-primary-dark">
-            Accepted By User: <span>{{ notification.acceptedByAdmin }}</span>
-          </b>
-        </div>
-      </div>
-    </ng-container>
-    <ng-template #noNotifications>
-      <p class="text-secondary-light">No hay notificaciones disponibles.</p>
-    </ng-template>
+      </ng-container>
+      <ng-template #noNotifications>
+        <p class="text-secondary-light">No hay notificaciones disponibles.</p>
+      </ng-template>
+    </div>
   </div>
 </div>

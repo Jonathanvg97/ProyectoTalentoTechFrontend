@@ -88,7 +88,7 @@ export const routes: Routes = [
   },
   {
     path: PATH.EDITUSER,
-    canActivate: [authGuard, roleGuard],
+    canActivate: [authGuard],
     component: FormEditUserComponent,
   },
   {

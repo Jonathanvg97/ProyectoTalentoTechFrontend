@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Talento Tech Frontend es una aplicación web desarrollada con Angular que permite a los usuarios y administradores gestionar oportunidades de negocio, notificaciones y detalles de usuarios. La aplicación incluye autenticación y autorización para proteger el acceso a determinadas rutas y funcionalidades.
+Opportunity Match  es una aplicación web desarrollada con Angular que permite a los usuarios y administradores gestionar oportunidades de negocio, notificaciones y detalles de usuarios. La aplicación incluye autenticación y autorización para proteger el acceso a determinadas rutas y funcionalidades.
 
 ## Tabla de Contenidos
 

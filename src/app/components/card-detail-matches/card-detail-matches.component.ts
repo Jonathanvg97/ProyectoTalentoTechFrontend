@@ -9,7 +9,7 @@ import { IndustryTypesPipe } from '../../pipes/industry-types.pipe';
 import { CommonModule } from '@angular/common';
 import { NotificationsService } from '../../services/notifications/notifications.service';
 import Swal from 'sweetalert2';
-import {Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-detail-matches',
@@ -44,7 +44,7 @@ export class CardDetailMatchesComponent implements OnInit {
           .acceptedMatchedById(notificationId, this.userRole)
           .subscribe((res) => {
             Swal.fire('¡Match aceptado!', '', 'success');
-            this.router.navigate(['/matchesByUser']);
+            this.fetchMatches(); // Volver a obtener los matches
           });
       }
     });
@@ -58,8 +58,29 @@ export class CardDetailMatchesComponent implements OnInit {
           .canceledMatchedById(notificationId, this.userRole)
           .subscribe((res) => {
             Swal.fire('¡Match cancelado!', '', 'success');
-            this.router.navigate(['/matchesByUser']);
+            this.fetchMatches(); // Volver a obtener los matches
           });
+      }
+    });
+  }
+
+  fetchMatches(): void {
+    this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.userService.getDetailByUserId(this.userId).subscribe((userDetail: any) => {
+          if (userDetail.user.matches && userDetail.user.matches.length > 0) {
+            const matchObservables: Observable<any>[] =
+              userDetail.user.matches.map((matchId: string) =>
+                this.matchesService.getMatchById(matchId)
+              );
+            forkJoin(matchObservables).subscribe((matches: any[]) => {
+              this.matchesByUserId = matches;
+            });
+          } else {
+            this.matchesByUserId = [];
+          }
+        });
       }
     });
   }
@@ -68,29 +89,6 @@ export class CardDetailMatchesComponent implements OnInit {
     this.loginService.getUserRoleFromToken().subscribe((role) => {
       this.userRole = role;
     });
-    // Obtener el userId del token
-    this.loginService.getUserIdFromToken().subscribe((id) => {
-      this.userId = id;
-      // Si se obtiene el userId, llamar al servicio para obtener los detalles del usuario
-      if (this.userId) {
-        this.userService
-          .getDetailByUserId(this.userId)
-          .subscribe((userDetail: any) => {
-            // Verificar si el usuario tiene matches
-            if (userDetail.user.matches && userDetail.user.matches.length > 0) {
-              // Obtener los detalles de cada match y asignarlos a matchesByUserId
-              const matchObservables: Observable<any>[] =
-                userDetail.user.matches.map((matchId: string) =>
-                  this.matchesService.getMatchById(matchId)
-                );
-              // Esperar a que se completen todas las solicitudes de matches
-              forkJoin(matchObservables).subscribe((matches: any[]) => {
-                this.matchesByUserId = matches;
-                // console.log(matches);
-              });
-            }
-          });
-      }
-    });
+    this.fetchMatches(); 
   }
 }

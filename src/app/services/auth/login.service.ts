@@ -54,7 +54,32 @@ export class LoginService {
 
   isLoggedIn(): Observable<boolean> {
     const token = localStorage.getItem('token');
-    return of(!!token);
+    if (token) {
+      const expirationDate = this.getTokenExpirationDate(token);
+      if (expirationDate && expirationDate > new Date()) {
+        return of(true);
+      } else {
+        this.getUserIdFromToken().subscribe((userId) => {
+          if (userId) {
+            this.logout(userId).subscribe();
+          }
+        });
+        return of(false);
+      }
+    }
+    return of(false);
+  }
+
+  private getTokenExpirationDate(token: string): Date | null {
+    try {
+      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      if (tokenPayload && tokenPayload.exp) {
+        return new Date(tokenPayload.exp * 1000);
+      }
+    } catch (error) {
+      console.error('Error parsing token payload', error);
+    }
+    return null;
   }
 
   getUserIdFromToken(): Observable<string | null> {
@@ -90,7 +115,6 @@ export class LoginService {
       .pipe(
         tap(() => {
           localStorage.removeItem('token');
-          localStorage.removeItem('user');
           this.router.navigateByUrl('/home');
         }),
         catchError((error) => {

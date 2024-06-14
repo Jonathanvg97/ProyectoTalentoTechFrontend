@@ -40,6 +40,8 @@
             </button>
 
             <button
+              *ngIf="user._id"
+              (click)="deleteUserByID(user._id)"
               class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
             >
               <i class="fa-solid fa-trash"></i>

@@ -39,7 +39,7 @@ export class UsersService {
     );
   }
 
-  updateUserById(userId: string, user: userCreateInterface) : Observable<any>{
+  updateUserById(userId: string, user: userCreateInterface): Observable<any> {
     return this.httpClient.put(
       `${base_url}/${base_url_users}/${userId}/`,
       user,
@@ -48,6 +48,16 @@ export class UsersService {
   }
 
   getAllUsers(): Observable<any> {
-    return this.httpClient.get(`${base_url}/${base_url_users}/list`, this.headers);
+    return this.httpClient.get(
+      `${base_url}/${base_url_users}/list`,
+      this.headers
+    );
+  }
+
+  deleteUserById(userId: string): Observable<any> {
+    return this.httpClient.delete(
+      `${base_url}/${base_url_users}/${userId}/`,
+      this.headers
+    );
   }
 }

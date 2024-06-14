@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { clientTypes } from '../../../core/enum/clientTypes.utils';
 import { userCreateInterface } from '../../../core/interface/user.interface';
 import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
+import { toasterSuccessConfig } from '../../../helpers/toaster.helper';
 
 @Component({
   selector: 'app-card-users',
@@ -41,6 +43,35 @@ export class CardUsersComponent implements OnInit {
     } else {
       return 'No definido';
     }
+  }
+
+  deleteUserByID(userId: string) {
+    Swal.fire({
+      html: 'Estás seguro de eliminar a este usuario?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.userService.deleteUserById(userId).subscribe((response) => {
+          this.loadUsers();
+          this.toastr.success(
+            'Cliente eliminado exitosamente',
+            '',
+            toasterSuccessConfig('')
+          );
+        });
+      }
+      error: (error: any) => {
+        Swal.fire({
+          html: ` ${error.error.msg}`,
+          icon: 'warning',
+        });
+      };
+    });
   }
 
   viewUserProfile(userId: string) {

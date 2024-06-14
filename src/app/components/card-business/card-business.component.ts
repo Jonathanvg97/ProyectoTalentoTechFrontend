@@ -60,45 +60,59 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
     this.loginService.getUserIdFromToken().subscribe((id) => {
       this.userId = id;
       if (this.userId) {
-        this.userService.getDetailByUserId(this.userId).subscribe((user: any) => {
-          const matchIds = user.user.matches;
-          if (matchIds.length > 0) {
-            const matchDetailsObservables: Observable<any>[] = matchIds.map((matchId: string): Observable<any> =>
-              this.matchesService.getMatchById(matchId)
-            );
-            forkJoin(matchDetailsObservables).subscribe((matchDetailsArray: any[]) => {
-              // Obtener los businessIds de las ofertas con las que ha hecho match el usuario
-              const matchedBusinessIds = matchDetailsArray.map((matchDetails: any) => matchDetails.match.business.businessId);
-  
-              // Cargar todas las ofertas
-              this.businessService.getAllBusiness().subscribe((resp: any) => {
-                this.business = resp.businessOpportunity;
-                // Filtrar las ofertas para encontrar las que no ha hecho match
-                this.unmatchedBusiness = this.business.filter((business) => {
-                  // Comprobar si el ID del negocio no está en los IDs de negocios con match
-                  const isMatched = matchedBusinessIds.includes(business._id);
-                  // Retornar true si no se encontró coincidencia, es decir, si no ha hecho match
-                  return !isMatched;
-                });
-              });
-            });
-          } else {
-            // Si no hay matches, cargar todas las ofertas
-            this.loadAllBusiness();
-          }
-        });
+        this.userService
+          .getDetailByUserId(this.userId)
+          .subscribe((user: any) => {
+            const matchIds = user.user.matches;
+            if (matchIds.length > 0) {
+              const matchDetailsObservables: Observable<any>[] = matchIds.map(
+                (matchId: string): Observable<any> =>
+                  this.matchesService.getMatchById(matchId)
+              );
+              forkJoin(matchDetailsObservables).subscribe(
+                (matchDetailsArray: any[]) => {
+                  // Obtener los businessIds de las ofertas con las que ha hecho match el usuario
+                  const matchedBusinessIds = matchDetailsArray.map(
+                    (matchDetails: any) =>
+                      matchDetails.match.business.businessId
+                  );
+
+                  // Cargar todas las ofertas
+                  this.businessService
+                    .getAllBusiness()
+                    .subscribe((resp: any) => {
+                      this.business = resp.businessOpportunity;
+                      // Filtrar las ofertas para encontrar las que no ha hecho match
+                      this.unmatchedBusiness = this.business.filter(
+                        (business) => {
+                          // Comprobar si el ID del negocio no está en los IDs de negocios con match
+                          const isMatched = matchedBusinessIds.includes(
+                            business._id
+                          );
+                          // Retornar true si no se encontró coincidencia, es decir, si no ha hecho match
+                          return !isMatched;
+                        }
+                      );
+                    });
+                }
+              );
+            } else {
+              // Si no hay matches, cargar todas las ofertas
+              this.loadAllBusiness();
+            }
+          });
       }
     });
   }
-  
-  
+
   loadAllBusiness() {
-    this.businessSubscription = this.businessService.getAllBusiness().subscribe((resp: any) => {
-      this.business = resp.businessOpportunity;
-      this.unmatchedBusiness = [...this.business]; // Mostrar todas las ofertas
-    });
+    this.businessSubscription = this.businessService
+      .getAllBusiness()
+      .subscribe((resp: any) => {
+        this.business = resp.businessOpportunity;
+        this.unmatchedBusiness = [...this.business]; // Mostrar todas las ofertas
+      });
   }
-  
 
   viewBusiness(id?: string) {
     if (!id) {
@@ -110,7 +124,7 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
         this.businessDetailsService.setBusinessDetails(resp.oportunity);
         this.toastr.success(
           `Oportunidad de negocio encontrada exitosamente`,
-          'Success',
+          '',
           toasterSuccessConfig('')
         );
         this.router.navigateByUrl(`/detailBusiness/${id}`);

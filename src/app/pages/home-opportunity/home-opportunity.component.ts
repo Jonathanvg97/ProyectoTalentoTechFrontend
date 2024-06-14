@@ -54,7 +54,7 @@ export class HomeOpportunityComponent implements OnInit {
       title: 'Ver usuarios',
       icon: 'fa-solid fa-users',
       buttonText: 'Ver',
-      routeButton: '/',
+      routeButton: '/allUsers',
     },
     {
       title: 'Ver Matches',

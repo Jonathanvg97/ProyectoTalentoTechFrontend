@@ -35,6 +35,7 @@ export class FormEditUserComponent implements OnInit {
   clientTypes = clientTypes;
   clientTypeKeys: number[];
   userId: string | null = null;
+  currentPassword: string = ''; // Variable para almacenar la contraseña actual
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,8 +54,7 @@ export class FormEditUserComponent implements OnInit {
     this.editForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(6)]],
       email: ['', [Validators.required, Validators.email]],
-      oldPassword: [''],
-      password: ['', [Validators.pattern(passwordRegex)]],
+      password: ['', [Validators.pattern(passwordRegex)]], // Input para mostrar la contraseña actual
       role: ['', Validators.required],
       clientType: ['', Validators.required],
     });
@@ -77,11 +77,11 @@ export class FormEditUserComponent implements OnInit {
       .subscribe(
         (response) => {
           const user = response.user;
-          // console.log('User Data:', user);
+          this.currentPassword = user.password; // Almacenar la contraseña actual
           this.editForm.patchValue({
             name: user.name,
             email: user.email,
-            password: user.password,
+            password: this.currentPassword, // Mostrar la contraseña actual en el input
             role: user.role,
             clientType: user.clientType,
           });
@@ -105,15 +105,18 @@ export class FormEditUserComponent implements OnInit {
         _id: this.userId,
         name: data.name,
         email: data.email,
-        password: '',
+        password: '', // Inicializar la contraseña como vacía
         role: data.role,
         clientType: data.clientType,
       };
 
-      // Check if new password is different from old password
-    if (data.password !== data.oldPassword) {
-      updateUser.password = data.password;
-    }
+      // Check if the password has been modified
+      if (data.password !== this.currentPassword) {
+        updateUser.password = data.password;
+      } else {
+        // No enviar la contraseña si no ha sido modificada
+        delete updateUser.password;
+      }
 
       this.usersService.updateUserById(this.userId, updateUser).subscribe(
         (resp: any) => {
@@ -122,7 +125,6 @@ export class FormEditUserComponent implements OnInit {
             'Success',
             toasterSuccessConfig('Usuario actualizado exitosamente.')
           );
-
           this.router.navigate(['/homeOpportunity']);
         },
         (error) => {

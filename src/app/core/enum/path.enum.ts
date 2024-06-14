@@ -7,10 +7,10 @@ export enum PATH {
   CREATEBUSINESS = 'createBusiness',
   EDITBUSINESS = 'editBusiness/:id',
   ALLBUSINESS = 'allBusiness',
-  DETAILBUSINESS= 'detailBusiness/:id',
+  DETAILBUSINESS = 'detailBusiness/:id',
   MATCHESBYUSER = 'matchesByUser',
-  USERBYID = 'userById',
+  USERBYID = 'userById/:id',
   ALLUSERS = 'allUsers',
-  EDITUSER = 'editUser',
+  EDITUSER = 'editUser/:id',
   NOTIFICATIONS = 'notifications',
 }

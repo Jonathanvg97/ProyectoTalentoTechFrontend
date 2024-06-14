@@ -8,10 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { UsersService } from '../../services/users/users.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { clientTypes } from '../../core/enum/clientTypes.utils';
-import { LoginService } from '../../services/auth/login.service';
 import {
   toasterErrorConfig,
   toasterSuccessConfig,
@@ -40,9 +39,9 @@ export class FormEditUserComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersService,
-    private loginService: LoginService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private route: ActivatedRoute
   ) {}
 
   get userForm() {
@@ -58,16 +57,13 @@ export class FormEditUserComponent implements OnInit {
       role: ['', Validators.required],
       clientType: ['', Validators.required],
     });
+    this.route.params.subscribe((params: { [key: string]: string }) => {
+      this.userId = params['id'];
+      if (this.userId) {
+        this.loadUserData();
+      }
+    });
 
-    this.loginService
-      .getUserIdFromToken()
-      .pipe(first())
-      .subscribe((id) => {
-        this.userId = id;
-        if (this.userId) {
-          this.loadUserData();
-        }
-      });
   }
 
   loadUserData(): void {

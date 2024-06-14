@@ -1,3 +1,4 @@
+import { LoginService } from './../../services/auth/login.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
@@ -37,38 +38,10 @@ interface CardOption {
   styleUrls: ['./home-opportunity.component.css'],
 })
 export class HomeOpportunityComponent implements OnInit {
-  cardOptions: CardOption[] = [
-    {
-      title: 'Crear Oferta',
-      icon: 'fa-solid fa-business-time',
-      buttonText: 'Crear',
-      routeButton: '/createBusiness',
-    },
-    {
-      title: 'Ver Ofertas',
-      icon: 'fa-solid fa-eye',
-      buttonText: 'Ver',
-      routeButton: '/allBusiness',
-    },
-    {
-      title: 'Ver usuarios',
-      icon: 'fa-solid fa-users',
-      buttonText: 'Ver',
-      routeButton: '/allUsers',
-    },
-    {
-      title: 'Ver Matches',
-      icon: 'fa-solid fa-handshake',
-      buttonText: 'Ver',
-      routeButton: '/matchesByUser',
-    },
-    {
-      title: 'Ver Perfil',
-      icon: 'fa-solid fa-cog',
-      buttonText: 'Ver',
-      routeButton: '/userById',
-    },
-  ];
+  userId: string | null = null;
+  cardOptions: CardOption[] = [];
+
+  constructor(private loginService: LoginService) {}
 
   responsiveOptions = [
     {
@@ -88,5 +61,45 @@ export class HomeOpportunityComponent implements OnInit {
     },
   ];
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+      this.updateCardOptions();
+    });
+  }
+
+  updateCardOptions(): void {
+    this.cardOptions = [
+      {
+        title: 'Crear Oferta',
+        icon: 'fa-solid fa-business-time',
+        buttonText: 'Crear',
+        routeButton: '/createBusiness',
+      },
+      {
+        title: 'Ver Ofertas',
+        icon: 'fa-solid fa-eye',
+        buttonText: 'Ver',
+        routeButton: '/allBusiness',
+      },
+      {
+        title: 'Ver usuarios',
+        icon: 'fa-solid fa-users',
+        buttonText: 'Ver',
+        routeButton: '/allUsers',
+      },
+      {
+        title: 'Ver Matches',
+        icon: 'fa-solid fa-handshake',
+        buttonText: 'Ver',
+        routeButton: '/matchesByUser',
+      },
+      {
+        title: 'Ver Perfil',
+        icon: 'fa-solid fa-cog',
+        buttonText: 'Ver',
+        routeButton: '/userById/' + this.userId,
+      },
+    ];
+  }
 }

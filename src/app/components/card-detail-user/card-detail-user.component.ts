@@ -1,10 +1,9 @@
 import { UsersService } from './../../services/users/users.service';
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../../services/auth/login.service';
 import { SideNavComponent } from '../side-nav/side-nav.component';
 import { clientTypes } from '../../core/enum/clientTypes.utils';
 import { FormEditUserComponent } from '../form-edit-user/form-edit-user.component';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-card-detail-user',
@@ -18,18 +17,20 @@ export class CardDetailUserComponent implements OnInit {
   userDetail: { ok: boolean; msg: string; user: any } | null = null;
 
   constructor(
-    private loginService: LoginService,
     private usersService: UsersService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.loginService.getUserIdFromToken().subscribe((id) => {
-      this.userId = id;
+    // Obtener el userId de la URL
+    this.route.params.subscribe((params: { [key: string]: string }) => {
+      this.userId = params['id']; // 'id' debe coincidir con el nombre del parámetro en la ruta
       if (this.userId) {
+        // Obtener detalles del usuario usando el userId
         this.usersService.getDetailByUserId(this.userId).subscribe((user) => {
           this.userDetail = user;
-          console.log(this.userDetail);
+          // console.log(this.userDetail);
         });
       }
     });
@@ -37,7 +38,7 @@ export class CardDetailUserComponent implements OnInit {
 
   onEdit(): void {
     if (this.userId) {
-      this.router.navigate(['/editUser']);
+      this.router.navigate([`/editUser/${this.userId}`]);
     }
   }
 

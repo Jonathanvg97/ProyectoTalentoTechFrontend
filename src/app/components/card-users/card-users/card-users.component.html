@@ -31,24 +31,20 @@
           }}</span>
 
           <div class="flex flex-row gap-4">
-          <button
-            class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
-          >
-            <i class="fa-solid fa-eye"></i>
-          </button>
+            <button
+              *ngIf="user._id"
+              (click)="viewUserProfile(user._id)"
+              class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
+            >
+              <i class="fa-solid fa-eye"></i>
+            </button>
 
-          <button
-
-            class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
-          >
-            <i class="fa-solid fa-pen-to-square"></i>
-          </button>
-          <button
-            class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
-          >
-            <i class="fa-solid fa-trash"></i>
-          </button>
-        </div>
+            <button
+              class="text-secondary-dark flex scale-100 hover:scale-125 hover:text-secondary-light"
+            >
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
         </div>
       </ng-container>
     </div>

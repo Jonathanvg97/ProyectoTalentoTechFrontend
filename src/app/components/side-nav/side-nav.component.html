@@ -70,6 +70,13 @@
               <i class="fa-solid fa-bell text-secondary-dark"></i>
               Notificaciones
             </a>
+            <!-- <i class="fa-solid fa-bell text-secondary-dark"></i>
+            <button
+              (click)="handleShowOffCanvas()"
+              class="ms-1 d-none d-sm-inline text-secondary-light hover:text-secondary-dark"
+            >
+              Notificaciones
+            </button> -->
           </li>
         </ul>
         <hr />
@@ -111,4 +118,7 @@
       </div>
     </div>
   </div>
+</div>
+<div *ngIf="offCanvasOpen">
+  <app-off-canvas [offCanvasOpen]="offCanvasOpen"></app-off-canvas>
 </div>

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
   createFormLogin() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(passwordRegex)]],
+      password: ['', [Validators.required, Validators.required]],
     });
   }
 
@@ -69,15 +69,11 @@ export class LoginComponent implements OnInit {
           }).then(() => {
             this.router.navigateByUrl(PATH.HOMEOPPORTUNITY);
           });
+        } else {
+          Swal.fire({
+            html: 'Credenciales incorrectas',
+          });
         }
-      },
-
-      error: (error: any) => {
-        Swal.fire({
-          html: ` ${error.error.msg}`,
-          icon: 'warning',
-        });
-        console.error(error.error.msg);
       },
     });
   }

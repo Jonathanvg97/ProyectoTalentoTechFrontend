@@ -56,13 +56,6 @@
 
         @if (!!isLogin && formLogin['password'].hasError('required') ) {
         <small class="text-secondary-light"> El password es Obligarotio </small>
-        } @if (formLogin['password'].hasError('required') &&
-        formLogin['password'].touched) {
-        <small class="text-secondary-light"> El password es Obligarotio </small>
-        } @if (!!isLogin && formLogin['password'].hasError('minlength') ) {
-        <small class="text-secondary-light">
-          La longitud de la contraseña debe ser mayor a 3 caracteres
-        </small>
         }
       </div>
 

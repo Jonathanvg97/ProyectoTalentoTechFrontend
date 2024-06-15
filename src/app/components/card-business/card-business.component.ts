@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BusinessService } from '../../services/business/business.service';
 import { Router } from '@angular/router';
@@ -37,8 +38,9 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
   unmatchedBusiness: businessInterface[] = [];
   businessSubscription: Subscription;
   userId: string | null = null;
+  userRole: string | null = null;
   errorMessage: string = '';
-
+  userAdminDetails: any;
   constructor(
     private businessService: BusinessService,
     private businessDetailsService: BusinessDetailsService,
@@ -50,7 +52,13 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.loadUserAndBusiness();
+    this.loginService.getUserRoleFromToken().subscribe((role) => {
+      if (role === 'user') {
+        this.loadUserAndBusiness();
+      } else {
+        this.loadPublicationsByAdmin();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -100,6 +108,32 @@ export class CardBusinessComponent implements OnInit, OnDestroy {
               // Si no hay matches, cargar todas las ofertas
               this.loadAllBusiness();
             }
+          });
+      }
+    });
+  }
+
+  loadPublicationsByAdmin() {
+    this.loginService.getUserIdFromToken().subscribe((id) => {
+      this.userId = id;
+      if (this.userId) {
+        this.userService
+          .getDetailByUserId(this.userId)
+          .subscribe((resp: any) => {
+            const createdBusinessIds = resp.user.createdBusinesses.map(
+              (business: any) => business
+            );
+
+            // console.log(createdBusinessIds);
+
+            this.businessService.getAllBusiness().subscribe((resp: any) => {
+              this.business = resp.businessOpportunity;
+              this.unmatchedBusiness = this.business.filter((business: any) => {
+                // Comprobar si el ID del negocio no está en los IDs de negocios creados por el usuario
+                const idBusiness = createdBusinessIds.includes(business._id);
+                return idBusiness;
+              });
+            });
           });
       }
     });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { LoginService } from '../../services/auth/login.service';
 import Swal from 'sweetalert2';
@@ -6,18 +6,19 @@ import { PATH } from '../../core/enum/path.enum';
 import { UsersService } from '../../services/users/users.service';
 import { CommonModule } from '@angular/common';
 import { UserRoleDirective } from '../../core/directives/userRole/userRole.directive';
+import { OffCanvasComponent } from '../offCanvas/off-canvas/off-canvas.component';
 
 @Component({
   selector: 'app-side-nav',
   standalone: true,
-  imports: [RouterLink, CommonModule, UserRoleDirective],
+  imports: [RouterLink, CommonModule, UserRoleDirective, OffCanvasComponent],
   templateUrl: './side-nav.component.html',
   styleUrl: './side-nav.component.css',
 })
 export class SideNavComponent implements OnInit {
   userId: string | null = null;
   userName: string | null = null;
-
+  offCanvasOpen = false;
   constructor(
     private loginService: LoginService,
     private router: Router,
@@ -60,5 +61,10 @@ export class SideNavComponent implements OnInit {
         });
       }
     });
+  }
+
+  handleShowOffCanvas() {
+    this.offCanvasOpen = !this.offCanvasOpen;
+    console.log(this.offCanvasOpen)
   }
 }

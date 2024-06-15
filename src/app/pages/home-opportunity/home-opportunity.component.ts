@@ -39,6 +39,7 @@ interface CardOption {
 })
 export class HomeOpportunityComponent implements OnInit {
   userId: string | null = null;
+  userRole: string | null = null;
   cardOptions: CardOption[] = [];
 
   constructor(private loginService: LoginService) {}
@@ -66,6 +67,11 @@ export class HomeOpportunityComponent implements OnInit {
       this.userId = id;
       this.updateCardOptions();
     });
+
+    this.loginService.getUserRoleFromToken().subscribe((role) => {
+      this.userRole = role;
+      this.updateCardOptions();
+    });
   }
 
   updateCardOptions(): void {
@@ -77,7 +83,7 @@ export class HomeOpportunityComponent implements OnInit {
         routeButton: '/createBusiness',
       },
       {
-        title: 'Ver Ofertas',
+        title: this.userRole === 'admin' ? 'Ver publicaciones' : 'Ver Ofertas',
         icon: 'fa-solid fa-eye',
         buttonText: 'Ver',
         routeButton: '/allBusiness',

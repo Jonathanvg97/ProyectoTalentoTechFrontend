@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment.development';
@@ -120,6 +120,33 @@ export class LoginService {
         catchError((error) => {
           console.error('Error logging out:', error);
           return of(false);
+        })
+      );
+  }
+
+  forgetPassword(email: string): Observable<any> {
+    return this.httpClient
+      .post(`${base_url}/${base_url_auth}/forgetPassword`, email, {})
+      .pipe(
+        catchError((error) => {
+          console.error('Error logging out:', error);
+          return of(false);
+        })
+      );
+  }
+
+  resetPassword(token: string, password: string): Observable<any> {
+    const headers = new HttpHeaders().set('x-token-pass', token);
+    return this.httpClient
+      .put(
+        `${base_url}/${base_url_auth}/resetPassword`,
+        { password },
+        { headers }
+      )
+      .pipe(
+        catchError((error) => {
+          console.error('Error during reset password:', error);
+          return of(null);
         })
       );
   }

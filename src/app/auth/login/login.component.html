@@ -59,20 +59,15 @@
         }
       </div>
 
-      <!-- <div class="d-flex justify-content-between align-items-center">
-            <div class="form-check mb-0">
-              <input
-                class="form-check-input me-2"
-                type="checkbox"
-                formControlName="remember"
-                id="recordar"
-              />
-              <label class="form-check-label mt-3" for="recordar">
-                Recordar
-              </label>
-            </div>
-            <a href="" class="text-body">¿Has olvidado tu contraseña?</a>
-          </div> -->
+      <div class="mb-4 flex align-items-center">
+        <button
+          for="remember"
+          (click)="forgetPassword()"
+          class="flex justify-between items-center text-secondary-light font-semibold mb-2"
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
+      </div>
 
       <div class="justify-center flex">
         <button

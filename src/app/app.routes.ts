@@ -17,6 +17,8 @@ import { CardDetailUserComponent } from './components/card-detail-user/card-deta
 import { FormEditUserComponent } from './components/form-edit-user/form-edit-user.component';
 import { NotificationsByUserComponent } from './components/notifications-by-user/notifications-by-user.component';
 import { CardUsersComponent } from './components/card-users/card-users/card-users.component';
+import { ForgetPasswordComponent } from './components/forget-password/forget-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -26,6 +28,14 @@ export const routes: Routes = [
   {
     path: PATH.LOGIN,
     component: LoginComponent,
+  },
+  {
+    path: PATH.FORGETPASSWORD,
+    component: ForgetPasswordComponent,
+  },
+  {
+    path: PATH.RESETPASSWORD,
+    component: ResetPasswordComponent,
   },
   {
     path: PATH.HOMEOPPORTUNITY,

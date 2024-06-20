@@ -14,11 +14,18 @@ import Swal from 'sweetalert2';
 import { PATH } from '../../core/enum/path.enum';
 import { HeaderComponent } from '../../components/header/header.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ForgetPasswordComponent } from '../../components/forget-password/forget-password.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, HeaderComponent, FooterComponent],
+  imports: [
+    ReactiveFormsModule,
+    FormsModule,
+    HeaderComponent,
+    FooterComponent,
+    ForgetPasswordComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -76,5 +83,9 @@ export class LoginComponent implements OnInit {
         }
       },
     });
+  }
+
+  forgetPassword() {
+    this.router.navigateByUrl(PATH.FORGETPASSWORD);
   }
 }

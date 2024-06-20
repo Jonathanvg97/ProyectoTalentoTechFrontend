@@ -2,6 +2,8 @@ export enum PATH {
   HOME = '',
   HOMEOPPORTUNITY = 'homeOpportunity',
   LOGIN = 'login',
+  FORGETPASSWORD = 'forgetPassword',
+  RESETPASSWORD = 'resetPassword',
   USERS = 'users',
   CREATEUSER = 'createUser',
   CREATEBUSINESS = 'createBusiness',
